@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <meta name="theme-color" content="#0a3d6b">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>AMAZON NAVAL - Sistema de Orçamento</title>
     
     <!-- Bootstrap -->
@@ -33,6 +34,10 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; min-height: 100vh; }
+        
+        /* ===== HOVER NAS TABELAS ===== */
+        .table-custom tbody tr:hover { background: #e9ecef; cursor: default; }
+        .table-precos tbody tr:hover { background: #e9ecef; cursor: default; }
         
         /* ===== TELA DE LOGIN ===== */
         #loginScreen {
@@ -233,7 +238,7 @@
             z-index: 10;
         }
         .table-custom td { padding: 6px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
-        .table-custom tr:hover { background: #f8f9fa; }
+        .table-custom tr:hover { background: #e9ecef; }
         
         .badge-status {
             padding: 2px 8px;
@@ -471,12 +476,42 @@
         .table-precos .valor { font-weight: 600; color: var(--primary); }
         .table-precos .acoes { white-space: nowrap; }
         
+        /* ===== CAMPOS PERSONALIZADOS ===== */
+        .campo-personalizado {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .campo-personalizado .form-group { flex: 1; margin-bottom: 0; }
+        .campo-personalizado .btn-remove { flex-shrink: 0; }
+        
+        /* ===== PWA - INSTALAÇÃO ===== */
+        #installBanner {
+            display: none;
+            background: var(--primary);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        #installBanner .btn-light { color: var(--primary); font-weight: 600; }
+        
         @media print {
             .sidebar, .topbar, .toolbar, .no-print { display: none !important; }
             .main-content { margin-left: 0 !important; }
             .page-content { display: block !important; }
             .card-custom { box-shadow: none; border: 1px solid #ddd; }
             body { background: #fff; padding: 0; }
+        }
+        
+        @media (display-mode: standalone) {
+            .topbar { padding-top: env(safe-area-inset-top); }
         }
     </style>
 </head>
@@ -583,6 +618,15 @@
             </div>
         </div>
 
+        <!-- BANNER DE INSTALAÇÃO PWA -->
+        <div id="installBanner" class="no-print">
+            <span><i class="bi bi-phone"></i> Instale o app no seu celular para acesso rápido!</span>
+            <div>
+                <button class="btn btn-sm btn-light" onclick="instalarPWA()">📱 Instalar App</button>
+                <button class="btn btn-sm btn-outline-light" onclick="fecharInstallBanner()">✕</button>
+            </div>
+        </div>
+
         <!-- PAGE: DASHBOARD -->
         <div class="page-content active" id="page-dashboard">
             <div class="row g-2" id="dashboardStats">
@@ -668,7 +712,7 @@
             </div>
         </div>
 
-        <!-- PAGE: CADASTRO DE ORÇAMENTO -->
+        <!-- PAGE: CADASTRO DE ORÇAMENTO (COM Nº EDITÁVEL E CAMPOS PERSONALIZADOS) -->
         <div class="page-content" id="page-cadastro">
             <div class="card-custom">
                 <div class="card-title">
@@ -679,8 +723,8 @@
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Nº Proposta</label>
-                        <input class="form-control" id="fNumero" readonly style="font-weight:700;color:var(--primary);">
+                        <label>Nº Proposta <small style="color:#6c757d;">(editável)</small></label>
+                        <input class="form-control" id="fNumero" style="font-weight:700;color:var(--primary);" onchange="validarNumeroProposta()" placeholder="AM-ORC-001/2026">
                     </div>
                     <div class="form-group">
                         <label>Data de Emissão</label>
@@ -782,6 +826,13 @@
                     <div class="form-group"><label>Valor por Parcela</label><input class="form-control" id="fValorParcela" readonly style="font-weight:700;color:var(--primary);"></div>
                     <div class="form-group"></div>
                 </div>
+
+                <!-- CAMPOS PERSONALIZADOS -->
+                <div style="font-weight:600;font-size:0.85rem;color:#0a3d6b;margin:15px 0 5px 0;border-bottom:1px solid #ddd;padding-bottom:3px;">
+                    5. CAMPOS PERSONALIZADOS
+                    <button class="btn btn-sm btn-outline-primary ms-2" onclick="adicionarCampoPersonalizado()"><i class="bi bi-plus-lg"></i> Adicionar Campo</button>
+                </div>
+                <div id="camposPersonalizadosContainer"></div>
 
                 <div class="d-flex gap-2 mt-3 flex-wrap">
                     <button class="btn btn-primary" onclick="salvarProposta()"><i class="bi bi-save"></i> Salvar Proposta</button>
@@ -1038,7 +1089,7 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- MODALS -->
+<!-- MODAIS -->
 <!-- ============================================================ -->
 
 <!-- MODAL SERVIÇO -->
@@ -1300,7 +1351,7 @@
 
 <script>
 // ============================================================
-// FIREBASE CONFIG (SUBSTITUA COM SUAS CONFIGURAÇÕES)
+// FIREBASE CONFIG
 // ============================================================
 const firebaseConfig = {
     apiKey: "AIzaSyCMRhB0llXQ26E8rj1j23yb-DrG5noMGYI",
@@ -1332,6 +1383,8 @@ let allData = {
     beneficiarios: [],
     configuracoes: []
 };
+let ultimoNumeroProposta = 0;
+let camposPersonalizados = [];
 
 // ============================================================
 // FUNÇÕES DE AUTENTICAÇÃO
@@ -1366,6 +1419,9 @@ function entrarNoSistema() {
     document.getElementById('appScreen').style.display = 'block';
     document.getElementById('userName').textContent = currentUser ? currentUser.email : 'Usuário';
     carregarDados();
+    
+    // Verificar PWA
+    verificarPWA();
 }
 
 function logout() {
@@ -1393,13 +1449,11 @@ async function carregarDados() {
             });
         }
         
-        // Se não houver preços, carregar padrão
         if (allData.precos.length === 0) {
             allData.precos = getPrecosPadrao();
             await salvarPrecosPadrao();
         }
         
-        // Se não houver configurações, criar padrão
         if (allData.configuracoes.length === 0) {
             const defaultConfig = {
                 empresa: 'AMAZON NAVAL LTDA',
@@ -1413,7 +1467,6 @@ async function carregarDados() {
             allData.configuracoes = [{ id: docRef.id, ...defaultConfig }];
         }
         
-        // Se não houver beneficiários, criar padrão
         if (allData.beneficiarios.length === 0) {
             const defaults = [
                 { nome: 'LATAM', tipo: 'Fornecedor', obs: 'Passagens aéreas' },
@@ -1426,7 +1479,6 @@ async function carregarDados() {
             }
         }
         
-        // Se não houver pessoas, criar padrão com Thainara
         if (allData.pessoas.length === 0) {
             const defaults = [
                 { nome: 'Victal Donanzan Neto', funcao: 'Tecnólogo Naval', admissao: '2020-01-02', status: 'Ativo', salario: 12500, obs: 'Vistoriador Naval certificado' },
@@ -1440,7 +1492,9 @@ async function carregarDados() {
             }
         }
         
-        // Renderizar tudo
+        // Calcular último número
+        calcularUltimoNumero();
+        
         renderTabelaPrecos();
         carregarServicosCadastro();
         atualizarNumeroProposta();
@@ -1462,12 +1516,27 @@ async function carregarDados() {
     mostrarLoading(false);
 }
 
+function calcularUltimoNumero() {
+    const propostas = allData.propostas || [];
+    let max = 0;
+    propostas.forEach(p => {
+        if (p.numero) {
+            const parts = p.numero.split('-');
+            if (parts.length >= 3) {
+                const numPart = parts[2].split('/')[0];
+                const num = parseInt(numPart);
+                if (!isNaN(num) && num > max) max = num;
+            }
+        }
+    });
+    ultimoNumeroProposta = max;
+}
+
 async function salvarPrecosPadrao() {
     try {
         for (const item of allData.precos) {
             await db.collection('precos').add(item);
         }
-        // Recarregar para pegar os IDs
         const snapshot = await db.collection('precos').get();
         allData.precos = [];
         snapshot.forEach(doc => {
@@ -1579,6 +1648,68 @@ function getStatusBadge(s) {
 }
 
 // ============================================================
+// VALIDAÇÃO DO NÚMERO DA PROPOSTA
+// ============================================================
+function validarNumeroProposta() {
+    const el = document.getElementById('fNumero');
+    const valor = el.value.trim();
+    
+    if (!valor) {
+        toast('Digite um número de proposta', 'warning');
+        el.style.borderColor = '#ffc107';
+        setTimeout(() => el.style.borderColor = '', 3000);
+        return false;
+    }
+    
+    const regex = /^AM-ORC-\d{3}\/\d{4}$/;
+    if (!regex.test(valor)) {
+        toast('Formato inválido! Use: AM-ORC-XXX/AAAA', 'warning');
+        el.style.borderColor = '#dc3545';
+        setTimeout(() => el.style.borderColor = '', 3000);
+        return false;
+    }
+    
+    const propostas = allData.propostas || [];
+    const editId = document.getElementById('editPropostaId').value;
+    const existe = propostas.some(p => p.numero === valor && p.id !== editId);
+    if (existe) {
+        toast('⚠️ Este número já está em uso!', 'error');
+        el.style.borderColor = '#dc3545';
+        setTimeout(() => el.style.borderColor = '', 3000);
+        return false;
+    }
+    
+    // Atualizar o último número
+    const parts = valor.split('-');
+    if (parts.length >= 3) {
+        const numPart = parts[2].split('/')[0];
+        const num = parseInt(numPart);
+        if (!isNaN(num) && num > ultimoNumeroProposta) {
+            ultimoNumeroProposta = num;
+        }
+    }
+    
+    el.style.borderColor = '#28a745';
+    return true;
+}
+
+// ============================================================
+// GERAR NÚMERO DA PROPOSTA (COM BASE NO ÚLTIMO USADO)
+// ============================================================
+function gerarNumeroProposta() {
+    const ano = new Date().getFullYear();
+    const proximo = ultimoNumeroProposta + 1;
+    return `AM-ORC-${String(proximo).padStart(3, '0')}/${ano}`;
+}
+
+function atualizarNumeroProposta() {
+    const el = document.getElementById('fNumero');
+    if (!el.value || el.value === '') {
+        el.value = gerarNumeroProposta();
+    }
+}
+
+// ============================================================
 // NAVEGAÇÃO
 // ============================================================
 function navigateTo(page) {
@@ -1618,33 +1749,6 @@ function navigateTo(page) {
 
 function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('open');
-}
-
-// ============================================================
-// GERAR NÚMERO DA PROPOSTA
-// ============================================================
-function gerarNumeroProposta() {
-    const propostas = allData.propostas || [];
-    const ano = new Date().getFullYear();
-    const propostasAno = propostas.filter(p => p.numero && p.numero.includes(`/${ano}`));
-    let ultimoNumero = 0;
-    propostasAno.forEach(p => {
-        const parts = p.numero.split('-');
-        if (parts.length >= 3) {
-            const numPart = parts[2].split('/')[0];
-            const num = parseInt(numPart);
-            if (!isNaN(num) && num > ultimoNumero) ultimoNumero = num;
-        }
-    });
-    const novoNumero = ultimoNumero + 1;
-    return `AM-ORC-${String(novoNumero).padStart(3, '0')}/${ano}`;
-}
-
-function atualizarNumeroProposta() {
-    const el = document.getElementById('fNumero');
-    if (!el.value || el.value === '') {
-        el.value = gerarNumeroProposta();
-    }
 }
 
 // ============================================================
@@ -1836,6 +1940,99 @@ function getServicosSelecionados() {
 }
 
 // ============================================================
+// CAMPOS PERSONALIZADOS
+// ============================================================
+function adicionarCampoPersonalizado() {
+    const container = document.getElementById('camposPersonalizadosContainer');
+    const id = 'campo_' + Date.now();
+    
+    const div = document.createElement('div');
+    div.className = 'campo-personalizado';
+    div.id = id;
+    div.innerHTML = `
+        <div class="form-group">
+            <input class="form-control campo-nome" placeholder="Nome do campo (ex: Nº da ART)" style="font-size:0.82rem;">
+        </div>
+        <div class="form-group" style="flex:0.7;">
+            <select class="form-select campo-tipo" style="font-size:0.82rem;">
+                <option value="texto">Texto</option>
+                <option value="data">Data</option>
+                <option value="numero">Número</option>
+                <option value="select">Select</option>
+            </select>
+        </div>
+        <div class="form-group" style="flex:1.5;">
+            <input class="form-control campo-valor" placeholder="Valor" style="font-size:0.82rem;">
+        </div>
+        <button class="btn btn-sm btn-outline-danger btn-remove" onclick="removerCampoPersonalizado('${id}')"><i class="bi bi-x"></i></button>
+    `;
+    
+    container.appendChild(div);
+    
+    // Evento para mudar o tipo
+    div.querySelector('.campo-tipo').addEventListener('change', function() {
+        const valorInput = div.querySelector('.campo-valor');
+        if (this.value === 'select') {
+            valorInput.placeholder = 'Opção1, Opção2, Opção3';
+        } else if (this.value === 'data') {
+            valorInput.type = 'date';
+            valorInput.placeholder = '';
+        } else {
+            valorInput.type = 'text';
+            valorInput.placeholder = 'Valor';
+        }
+    });
+}
+
+function removerCampoPersonalizado(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+}
+
+function getCamposPersonalizados() {
+    const container = document.getElementById('camposPersonalizadosContainer');
+    const campos = [];
+    container.querySelectorAll('.campo-personalizado').forEach(div => {
+        const nome = div.querySelector('.campo-nome').value.trim();
+        const tipo = div.querySelector('.campo-tipo').value;
+        const valor = div.querySelector('.campo-valor').value.trim();
+        if (nome) {
+            campos.push({ nome, tipo, valor });
+        }
+    });
+    return campos;
+}
+
+function setCamposPersonalizados(campos) {
+    const container = document.getElementById('camposPersonalizadosContainer');
+    container.innerHTML = '';
+    campos.forEach(campo => {
+        const id = 'campo_' + Date.now() + Math.random().toString(36).substr(2, 4);
+        const div = document.createElement('div');
+        div.className = 'campo-personalizado';
+        div.id = id;
+        div.innerHTML = `
+            <div class="form-group">
+                <input class="form-control campo-nome" placeholder="Nome do campo" value="${campo.nome}" style="font-size:0.82rem;">
+            </div>
+            <div class="form-group" style="flex:0.7;">
+                <select class="form-select campo-tipo" style="font-size:0.82rem;">
+                    <option value="texto" ${campo.tipo === 'texto' ? 'selected' : ''}>Texto</option>
+                    <option value="data" ${campo.tipo === 'data' ? 'selected' : ''}>Data</option>
+                    <option value="numero" ${campo.tipo === 'numero' ? 'selected' : ''}>Número</option>
+                    <option value="select" ${campo.tipo === 'select' ? 'selected' : ''}>Select</option>
+                </select>
+            </div>
+            <div class="form-group" style="flex:1.5;">
+                <input class="form-control campo-valor" placeholder="Valor" value="${campo.valor}" style="font-size:0.82rem;">
+            </div>
+            <button class="btn btn-sm btn-outline-danger btn-remove" onclick="removerCampoPersonalizado('${id}')"><i class="bi bi-x"></i></button>
+        `;
+        container.appendChild(div);
+    });
+}
+
+// ============================================================
 // CÁLCULOS DO ORÇAMENTO
 // ============================================================
 function calcularTotais() {
@@ -1878,6 +2075,9 @@ async function salvarProposta() {
         return;
     }
     
+    // Validar número da proposta
+    if (!validarNumeroProposta()) return;
+    
     const editId = document.getElementById('editPropostaId').value;
     const servicosSelecionados = getServicosSelecionados();
     if (servicosSelecionados.length === 0) {
@@ -1890,6 +2090,7 @@ async function salvarProposta() {
     const totalGeral = totalServicos - desconto;
     const numParcelas = parseInt(document.getElementById('fNumParcelas').value) || 1;
     const valorParcela = numParcelas > 0 ? totalGeral / numParcelas : 0;
+    const camposPersonalizados = getCamposPersonalizados();
     
     const data = {
         numero: document.getElementById('fNumero').value,
@@ -1919,6 +2120,7 @@ async function salvarProposta() {
         endereco: document.getElementById('fEndereco').value.trim(),
         telefone: document.getElementById('fTelefone').value.trim(),
         servicos: servicosSelecionados,
+        camposPersonalizados: camposPersonalizados,
         totalServicos: totalServicos,
         desconto: desconto,
         totalGeral: totalGeral,
@@ -1956,6 +2158,7 @@ function limparFormCadastro() {
     document.getElementById('fDesconto').value = '0';
     document.getElementById('fNumParcelas').value = '6';
     carregarServicosCadastro();
+    document.getElementById('camposPersonalizadosContainer').innerHTML = '';
     document.getElementById('btnGerarPDF').style.display = 'none';
     document.getElementById('btnVisualizar').style.display = 'inline-block';
 }
@@ -1975,6 +2178,7 @@ function visualizarProposta() {
         const totalGeral = totalServicos - desconto;
         const numParcelas = parseInt(document.getElementById('fNumParcelas').value) || 1;
         const valorParcela = numParcelas > 0 ? totalGeral / numParcelas : 0;
+        const camposPersonalizados = getCamposPersonalizados();
         dados = {
             numero: document.getElementById('fNumero').value || 'AM-ORC-XXX/XXXX',
             data: document.getElementById('fData').value || new Date().toISOString().split('T')[0],
@@ -1986,6 +2190,7 @@ function visualizarProposta() {
             contratante: document.getElementById('fContratante').value || 'N/A',
             cnpj: document.getElementById('fCnpj').value || 'N/A',
             servicos: servicos,
+            camposPersonalizados: camposPersonalizados,
             totalServicos: totalServicos,
             desconto: desconto,
             totalGeral: totalGeral,
@@ -2004,6 +2209,14 @@ function visualizarProposta() {
     dados.servicos.forEach((s, i) => {
         servicosHtml += `${String(i+1).padStart(2)}  ${s.nome.padEnd(40)} ${formatMoeda(s.valor).padStart(14)}\n`;
     });
+    
+    let camposHtml = '';
+    if (dados.camposPersonalizados && dados.camposPersonalizados.length > 0) {
+        camposHtml = '\n  CAMPOS ADICIONAIS:\n';
+        dados.camposPersonalizados.forEach(c => {
+            camposHtml += `  ${c.nome.padEnd(30)} ${c.valor}\n`;
+        });
+    }
     
     let parcelasHtml = '';
     for (let i = 1; i <= dados.numParcelas; i++) {
@@ -2034,9 +2247,10 @@ function visualizarProposta() {
 │  2.0 - DESCRIÇÃO DOS SERVIÇOS                                       │
 │                                                                     │
 │  SERVIÇOS:                                                          │
-${servicosHtml}  TOTAL DOS SERVIÇOS                         ${formatMoeda(dados.totalServicos).padStart(14)}
-  DESCONTO                                   ${formatMoeda(dados.desconto).padStart(14)}
-  TOTAL GERAL                                ${formatMoeda(dados.totalGeral).padStart(14)}
+${servicosHtml}${camposHtml}
+│  TOTAL DOS SERVIÇOS                         ${formatMoeda(dados.totalServicos).padStart(14)}
+│  DESCONTO                                   ${formatMoeda(dados.desconto).padStart(14)}
+│  TOTAL GERAL                                ${formatMoeda(dados.totalGeral).padStart(14)}
 │                                                                     │
 │  3.0 - DESPESAS EVENTUAIS                                           │
 │  Todas as despesas com passagens (aéreas, terrestres ou fluviais),  │
@@ -2118,7 +2332,7 @@ function gerarPDFProposta(id) {
 }
 
 // ============================================================
-// IMPRIMIR PROPOSTA (PDF)
+// IMPRIMIR PROPOSTA (PDF) - FONTES CORRIGIDAS: corpo 10px, tabelas 8.5px, títulos 12px, assinatura 11px
 // ============================================================
 function imprimirProposta(p) {
     const LOGO = "https://i.imgur.com/W4wgZeD.jpeg";
@@ -2145,6 +2359,23 @@ function imprimirProposta(p) {
         `;
     });
     
+    // Campos personalizados
+    let camposHtml = '';
+    if (p.camposPersonalizados && p.camposPersonalizados.length > 0) {
+        camposHtml = `
+            <tr><td colspan="3" style="border:1px solid #000;padding:4px 5px;font-weight:bold;background:#f0f0f0;">CAMPOS ADICIONAIS</td></tr>
+        `;
+        p.camposPersonalizados.forEach(c => {
+            camposHtml += `
+                <tr>
+                    <td style="border:1px solid #000;padding:2px 4px;"></td>
+                    <td style="border:1px solid #000;padding:2px 4px;">${c.nome}</td>
+                    <td style="border:1px solid #000;padding:2px 4px;text-align:right;">${c.valor}</td>
+                </tr>
+            `;
+        });
+    }
+    
     let parcelasHtml = '';
     const numParcelas = p.numParcelas || 1;
     const valorParcela = p.valorParcela || 0;
@@ -2164,32 +2395,32 @@ function imprimirProposta(p) {
         <title>${p.numero}</title>
         <style>
             @page { margin: 12px; }
-            body { font-family: 'Courier New', Courier, monospace; font-size: 8.5px; margin: 0; padding: 12px; background: #fff; }
+            body { font-family: 'Courier New', Courier, monospace; font-size: 10px; margin: 0; padding: 12px; background: #fff; }
             .container { max-width: 210mm; margin: 0 auto; }
             .header { text-align: center; border-bottom: 2px solid #0a3d6b; padding-bottom: 6px; margin-bottom: 6px; }
             .logo { max-height: 40px; }
             .title { font-size: 12px; font-weight: bold; margin-top: 2px; }
             .row { display: flex; justify-content: space-between; margin: 1px 0; }
             .label { font-weight: bold; }
-            .section { font-weight: bold; font-size: 9px; margin: 6px 0 3px 0; border-bottom: 1px solid #000; padding-bottom: 1px; }
+            .section { font-weight: bold; font-size: 10px; margin: 6px 0 3px 0; border-bottom: 1px solid #000; padding-bottom: 1px; }
             table { width: 100%; border-collapse: collapse; margin: 2px 0; }
             td { padding: 1px 3px; vertical-align: top; }
-            .servicos-table { border-collapse: collapse; font-size: 7.5px; }
+            .servicos-table { border-collapse: collapse; font-size: 8.5px; }
             .servicos-table td, .servicos-table th { border: 1px solid #000; padding: 2px 5px; }
             .servicos-table th { background: #f0f0f0; font-weight: bold; text-align: center; }
             .total-row td { font-weight: bold; border-top: 2px solid #000; }
             .desconto-row td { border-top: 1px solid #ccc; }
-            .parcelas-table { border-collapse: collapse; margin: 3px 0; font-size: 7.5px; }
+            .parcelas-table { border-collapse: collapse; margin: 3px 0; font-size: 8.5px; }
             .parcelas-table td, .parcelas-table th { border: 1px solid #000; padding: 2px 15px; }
             .parcelas-table th { background: #f0f0f0; font-weight: bold; }
             .assinatura { margin-top: 25px; display: flex; justify-content: space-between; }
             .assinatura div { text-align: center; }
             .assinatura .line { width: 180px; border-top: 1px solid #000; margin: 4px auto; }
-            .assinatura .nome { font-weight: bold; font-size: 9px; }
+            .assinatura .nome { font-weight: bold; font-size: 11px; }
             .assinatura .cargo { font-size: 6.5px; color: #6c757d; }
             .footer { text-align: center; font-size: 6.5px; color: #6c757d; margin-top: 8px; border-top: 1px solid #ddd; padding-top: 3px; }
-            .texto-clausula { margin: 2px 0; text-align: justify; font-size: 8px; }
-            .texto-clausula-num { margin: 2px 0; text-align: justify; font-size: 8px; padding-left: 10px; }
+            .texto-clausula { margin: 2px 0; text-align: justify; font-size: 10px; }
+            .texto-clausula-num { margin: 2px 0; text-align: justify; font-size: 10px; padding-left: 10px; }
         </style>
     </head>
     <body>
@@ -2225,6 +2456,7 @@ function imprimirProposta(p) {
             <table class="servicos-table">
                 <tr><th>Nº</th><th>SERVIÇO</th><th>VALOR</th></tr>
                 ${servicosHtml}
+                ${camposHtml}
                 <tr class="desconto-row"><td></td><td style="font-weight:bold;">TOTAL DOS SERVIÇOS</td><td style="text-align:right;font-weight:bold;">${formatMoeda(totalServicos)}</td></tr>
                 <tr><td></td><td style="font-weight:bold;">DESCONTO</td><td style="text-align:right;font-weight:bold;">${formatMoeda(p.desconto || 0)}</td></tr>
                 <tr class="total-row"><td></td><td style="font-weight:bold;">TOTAL GERAL</td><td style="text-align:right;font-weight:bold;color:#000;">${formatMoeda(p.totalGeral)}</td></tr>
@@ -2296,7 +2528,7 @@ function gerarPDFTodasPropostas() {
     let html = `
     <html><head><meta charset="UTF-8"><title>Todas as Propostas</title>
     <style>
-        body{font-family:'Courier New',monospace;font-size:9px;padding:15px;}
+        body{font-family:'Courier New',monospace;font-size:10px;padding:15px;}
         table{width:100%;border-collapse:collapse;}
         th,td{border:1px solid #000;padding:3px 6px;text-align:left;}
         th{background:#0a3d6b;color:#fff;}
@@ -2488,6 +2720,11 @@ function editarProposta(id) {
             cb.checked = selecionado;
         });
     }
+    
+    if (p.camposPersonalizados) {
+        setCamposPersonalizados(p.camposPersonalizados);
+    }
+    
     calcularTotais();
 }
 
@@ -3531,7 +3768,7 @@ async function salvarConfiguracoes() {
 }
 
 // ============================================================
-// LIMPAR DADOS (LOCAL)
+// LIMPAR DADOS
 // ============================================================
 function limparDados() {
     if (!confirm('⚠️ Isso irá apagar TODOS os dados do Firestore! Confirmar?')) return;
@@ -3552,6 +3789,52 @@ function limparDados() {
 // ============================================================
 function carregarExemplos() {
     toast('Os exemplos já foram carregados automaticamente do Firebase!', 'info');
+}
+
+// ============================================================
+// PWA - INSTALAÇÃO
+// ============================================================
+let deferredPrompt = null;
+
+function verificarPWA() {
+    // Verificar se já está instalado como PWA
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        document.getElementById('installBanner').style.display = 'none';
+        return;
+    }
+    
+    // Verificar se o navegador suporta instalação
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installBanner').style.display = 'flex';
+    });
+    
+    window.addEventListener('appinstalled', () => {
+        document.getElementById('installBanner').style.display = 'none';
+        toast('✅ App instalado com sucesso!', 'success');
+    });
+}
+
+function instalarPWA() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                toast('✅ App instalado!', 'success');
+            } else {
+                toast('Instalação cancelada', 'info');
+            }
+            deferredPrompt = null;
+            document.getElementById('installBanner').style.display = 'none';
+        });
+    } else {
+        toast('⚠️ Instalação não disponível neste navegador', 'warning');
+    }
+}
+
+function fecharInstallBanner() {
+    document.getElementById('installBanner').style.display = 'none';
 }
 
 // ============================================================
