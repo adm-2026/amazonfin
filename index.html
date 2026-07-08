@@ -35,11 +35,9 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; min-height: 100vh; }
         
-        /* ===== HOVER NAS TABELAS ===== */
         .table-custom tbody tr:hover { background: #e9ecef; cursor: default; }
         .table-precos tbody tr:hover { background: #e9ecef; cursor: default; }
         
-        /* ===== TELA DE LOGIN ===== */
         #loginScreen {
             display: flex;
             align-items: center;
@@ -56,10 +54,7 @@
             width: 100%;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
-        .login-card .logo {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+        .login-card .logo { text-align: center; margin-bottom: 25px; }
         .login-card .logo .logo-img { font-size: 3rem; display: block; }
         .login-card .logo h2 { color: var(--primary); font-weight: 700; margin: 5px 0 0; font-size: 1.4rem; }
         .login-card .logo small { color: #6c757d; font-size: 0.75rem; }
@@ -67,11 +62,7 @@
         .login-card .btn-primary { width: 100%; padding: 10px; font-weight: 600; border-radius: 8px; }
         .login-card .error-msg { color: var(--danger); font-size: 0.8rem; margin-top: 8px; display: none; }
         
-        /* ===== SISTEMA PRINCIPAL ===== */
-        #appScreen {
-            display: none;
-            min-height: 100vh;
-        }
+        #appScreen { display: none; min-height: 100vh; }
         
         .sidebar {
             width: var(--sidebar-width);
@@ -210,6 +201,8 @@
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
         .form-control:read-only { background: #f8f9fa; }
+        .form-control.valido { border-color: var(--success); }
+        .form-control.invalido { border-color: var(--danger); }
         
         @media (max-width: 768px) {
             .form-row { grid-template-columns: 1fr; }
@@ -476,7 +469,6 @@
         .table-precos .valor { font-weight: 600; color: var(--primary); }
         .table-precos .acoes { white-space: nowrap; }
         
-        /* ===== CAMPOS PERSONALIZADOS ===== */
         .campo-personalizado {
             display: flex;
             align-items: center;
@@ -487,7 +479,6 @@
         .campo-personalizado .form-group { flex: 1; margin-bottom: 0; }
         .campo-personalizado .btn-remove { flex-shrink: 0; }
         
-        /* ===== PWA - INSTALAÇÃO ===== */
         #installBanner {
             display: none;
             background: var(--primary);
@@ -501,6 +492,17 @@
             gap: 10px;
         }
         #installBanner .btn-light { color: var(--primary); font-weight: 600; }
+        
+        /* Totais na tabela de receitas */
+        .totais-receitas td {
+            font-weight: 600;
+            border-top: 2px solid #0a3d6b;
+        }
+        .totais-receitas .label-total { color: var(--primary); }
+        .totais-receitas .label-pagar { color: #dc3545; }
+        .totais-receitas .label-recebido { color: #28a745; }
+        .totais-receitas .label-vencido { color: #ffc107; }
+        .totais-receitas .label-geral { color: var(--primary); }
         
         @media print {
             .sidebar, .topbar, .toolbar, .no-print { display: none !important; }
@@ -712,7 +714,7 @@
             </div>
         </div>
 
-        <!-- PAGE: CADASTRO DE ORÇAMENTO (COM Nº EDITÁVEL E CAMPOS PERSONALIZADOS) -->
+        <!-- PAGE: CADASTRO DE ORÇAMENTO -->
         <div class="page-content" id="page-cadastro">
             <div class="card-custom">
                 <div class="card-title">
@@ -724,7 +726,8 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Nº Proposta <small style="color:#6c757d;">(editável)</small></label>
-                        <input class="form-control" id="fNumero" style="font-weight:700;color:var(--primary);" onchange="validarNumeroProposta()" placeholder="AM-ORC-001/2026">
+                        <input class="form-control" id="fNumero" style="font-weight:700;color:var(--primary);" onchange="validarNumeroProposta()" oninput="this.style.borderColor='#dee2e6';" placeholder="AM-ORC-001/2026">
+                        <small id="numeroStatus" style="font-size:0.7rem;color:#6c757d;"></small>
                     </div>
                     <div class="form-group">
                         <label>Data de Emissão</label>
@@ -927,7 +930,7 @@
             </div>
         </div>
 
-        <!-- PAGE: RECEITAS -->
+        <!-- PAGE: RECEITAS (COM TOTAIS E EDIÇÃO EM LOTE) -->
         <div class="page-content" id="page-receita">
             <div class="card-custom">
                 <div class="card-title">
@@ -950,12 +953,14 @@
                     </div>
                     <div>
                         <button class="btn btn-sm btn-success" onclick="abrirModalReceita()"><i class="bi bi-plus-lg"></i> Nova Receita</button>
+                        <button class="btn btn-sm btn-info" onclick="gerarPDFReceitas()"><i class="bi bi-file-pdf"></i> PDF</button>
                     </div>
                 </div>
                 <div class="table-responsive-wrapper">
                     <table class="table-custom">
                         <thead><tr><th>Vencimento</th><th>Nº Orçamento</th><th>Descrição</th><th>Cliente</th><th>Valor</th><th>Parcela</th><th>Status</th><th>Forma de Recebimento</th><th>Ações</th></tr></thead>
                         <tbody id="receitasBody"></tbody>
+                        <tfoot id="receitasTotais" style="font-weight:700;background:#f8f9fa;"></tfoot>
                     </table>
                 </div>
                 <div class="table-footer" id="receitasFooter">
@@ -1339,6 +1344,33 @@
     </div>
 </div>
 
+<!-- MODAL EDIÇÃO EM LOTE -->
+<div class="modal fade" id="modalEdicaoLote" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">Edição em Lote</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <p>Esta receita faz parte de um grupo de parcelas:</p>
+                <div id="loteInfo" style="background:#f8f9fa;padding:10px;border-radius:6px;margin-bottom:15px;"></div>
+                <div class="form-group">
+                    <label>Deseja aplicar as alterações em todas as parcelas?</label>
+                    <select class="form-select" id="loteAplicarEmTodas">
+                        <option value="sim">Sim, aplicar em todas as parcelas</option>
+                        <option value="nao">Não, somente nesta parcela</option>
+                    </select>
+                </div>
+                <div style="font-size:0.8rem;color:#6c757d;background:#fff3cd;padding:8px 12px;border-radius:6px;border-left:4px solid #ffc107;">
+                    ⚠️ Ao aplicar em todas, as parcelas terão o mesmo: Cliente, Forma de Recebimento e Status (se alterado).
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" onclick="confirmarEdicaoLote()"><i class="bi bi-check"></i> Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- ============================================================ -->
 <!-- TOAST -->
 <!-- ============================================================ -->
@@ -1363,9 +1395,6 @@ const firebaseConfig = {
     measurementId: "G-FR10B5Z691"
 };
 
-// ============================================================
-// INICIALIZAR FIREBASE
-// ============================================================
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
@@ -1385,6 +1414,8 @@ let allData = {
 };
 let ultimoNumeroProposta = 0;
 let camposPersonalizados = [];
+let loteEditId = null;
+let loteDados = null;
 
 // ============================================================
 // FUNÇÕES DE AUTENTICAÇÃO
@@ -1419,8 +1450,6 @@ function entrarNoSistema() {
     document.getElementById('appScreen').style.display = 'block';
     document.getElementById('userName').textContent = currentUser ? currentUser.email : 'Usuário';
     carregarDados();
-    
-    // Verificar PWA
     verificarPWA();
 }
 
@@ -1492,7 +1521,6 @@ async function carregarDados() {
             }
         }
         
-        // Calcular último número
         calcularUltimoNumero();
         
         renderTabelaPrecos();
@@ -1647,54 +1675,91 @@ function getStatusBadge(s) {
     return m[s] || 'pendente';
 }
 
+function getMesAno(dataStr) {
+    if (!dataStr) return null;
+    try {
+        const d = new Date(dataStr);
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    } catch(e) { return null; }
+}
+
 // ============================================================
-// VALIDAÇÃO DO NÚMERO DA PROPOSTA
+// VALIDAÇÃO DO NÚMERO DA PROPOSTA (BLOQUEIO DE DUPLICADOS)
 // ============================================================
-function validarNumeroProposta() {
+async function validarNumeroProposta() {
     const el = document.getElementById('fNumero');
     const valor = el.value.trim();
+    const statusEl = document.getElementById('numeroStatus');
     
     if (!valor) {
-        toast('Digite um número de proposta', 'warning');
-        el.style.borderColor = '#ffc107';
-        setTimeout(() => el.style.borderColor = '', 3000);
+        statusEl.textContent = '⚠️ Digite um número de proposta';
+        statusEl.style.color = '#ffc107';
+        el.classList.remove('valido', 'invalido');
         return false;
     }
     
     const regex = /^AM-ORC-\d{3}\/\d{4}$/;
     if (!regex.test(valor)) {
-        toast('Formato inválido! Use: AM-ORC-XXX/AAAA', 'warning');
-        el.style.borderColor = '#dc3545';
-        setTimeout(() => el.style.borderColor = '', 3000);
+        statusEl.textContent = '❌ Formato inválido! Use: AM-ORC-XXX/AAAA';
+        statusEl.style.color = '#dc3545';
+        el.classList.remove('valido');
+        el.classList.add('invalido');
         return false;
     }
     
-    const propostas = allData.propostas || [];
-    const editId = document.getElementById('editPropostaId').value;
-    const existe = propostas.some(p => p.numero === valor && p.id !== editId);
-    if (existe) {
-        toast('⚠️ Este número já está em uso!', 'error');
-        el.style.borderColor = '#dc3545';
-        setTimeout(() => el.style.borderColor = '', 3000);
-        return false;
-    }
-    
-    // Atualizar o último número
-    const parts = valor.split('-');
-    if (parts.length >= 3) {
-        const numPart = parts[2].split('/')[0];
-        const num = parseInt(numPart);
-        if (!isNaN(num) && num > ultimoNumeroProposta) {
-            ultimoNumeroProposta = num;
+    try {
+        // Verificar no Firestore se o número já existe
+        const snapshot = await db.collection('propostas')
+            .where('numero', '==', valor)
+            .get();
+        
+        const editId = document.getElementById('editPropostaId').value;
+        let encontrado = false;
+        snapshot.forEach(doc => {
+            if (doc.id !== editId) {
+                encontrado = true;
+            }
+        });
+        
+        if (encontrado) {
+            statusEl.textContent = '❌ Este número já está em uso!';
+            statusEl.style.color = '#dc3545';
+            el.classList.remove('valido');
+            el.classList.add('invalido');
+            
+            // Sugerir próximo número
+            const sugestao = gerarNumeroProposta();
+            statusEl.textContent += ` 💡 Sugestão: ${sugestao}`;
+            
+            return false;
         }
+        
+        statusEl.textContent = '✅ Número disponível!';
+        statusEl.style.color = '#28a745';
+        el.classList.remove('invalido');
+        el.classList.add('valido');
+        
+        // Atualizar o último número
+        const parts = valor.split('-');
+        if (parts.length >= 3) {
+            const numPart = parts[2].split('/')[0];
+            const num = parseInt(numPart);
+            if (!isNaN(num) && num > ultimoNumeroProposta) {
+                ultimoNumeroProposta = num;
+            }
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('Erro ao validar número:', error);
+        statusEl.textContent = '⚠️ Erro ao verificar disponibilidade';
+        statusEl.style.color = '#ffc107';
+        return false;
     }
-    
-    el.style.borderColor = '#28a745';
-    return true;
 }
 
 // ============================================================
-// GERAR NÚMERO DA PROPOSTA (COM BASE NO ÚLTIMO USADO)
+// GERAR NÚMERO DA PROPOSTA
 // ============================================================
 function gerarNumeroProposta() {
     const ano = new Date().getFullYear();
@@ -1706,6 +1771,9 @@ function atualizarNumeroProposta() {
     const el = document.getElementById('fNumero');
     if (!el.value || el.value === '') {
         el.value = gerarNumeroProposta();
+        document.getElementById('numeroStatus').textContent = '✅ Número disponível';
+        document.getElementById('numeroStatus').style.color = '#28a745';
+        el.classList.add('valido');
     }
 }
 
@@ -1969,7 +2037,6 @@ function adicionarCampoPersonalizado() {
     
     container.appendChild(div);
     
-    // Evento para mudar o tipo
     div.querySelector('.campo-tipo').addEventListener('change', function() {
         const valorInput = div.querySelector('.campo-valor');
         if (this.value === 'select') {
@@ -2075,8 +2142,12 @@ async function salvarProposta() {
         return;
     }
     
-    // Validar número da proposta
-    if (!validarNumeroProposta()) return;
+    // VALIDAR NÚMERO ANTES DE SALVAR
+    const numeroValido = await validarNumeroProposta();
+    if (!numeroValido) {
+        toast('❌ Corrija o número da proposta antes de salvar', 'error');
+        return;
+    }
     
     const editId = document.getElementById('editPropostaId').value;
     const servicosSelecionados = getServicosSelecionados();
@@ -2157,6 +2228,9 @@ function limparFormCadastro() {
     });
     document.getElementById('fDesconto').value = '0';
     document.getElementById('fNumParcelas').value = '6';
+    document.getElementById('numeroStatus').textContent = '✅ Número disponível';
+    document.getElementById('numeroStatus').style.color = '#28a745';
+    document.getElementById('fNumero').classList.add('valido');
     carregarServicosCadastro();
     document.getElementById('camposPersonalizadosContainer').innerHTML = '';
     document.getElementById('btnGerarPDF').style.display = 'none';
@@ -2310,7 +2384,7 @@ function gerarPDFVisualizar() {
     const win = window.open('', '_blank');
     win.document.write(`
         <html><head><title>Proposta</title>
-        <style>body{font-family:'Courier New',monospace;font-size:10px;white-space:pre-wrap;padding:20px;}</style>
+        <style>body{font-family:'Courier New',monospace;font-size:12px;white-space:pre-wrap;padding:20px;}</style>
         </head><body>${texto.replace(/\n/g, '<br>')}</body></html>
     `);
     win.document.close();
@@ -2332,7 +2406,7 @@ function gerarPDFProposta(id) {
 }
 
 // ============================================================
-// IMPRIMIR PROPOSTA (PDF) - FONTES CORRIGIDAS: corpo 10px, tabelas 8.5px, títulos 12px, assinatura 11px
+// IMPRIMIR PROPOSTA (PDF) - FONTES: corpo 12px, tabelas 9.5px, títulos 14px, assinatura 12px
 // ============================================================
 function imprimirProposta(p) {
     const LOGO = "https://i.imgur.com/W4wgZeD.jpeg";
@@ -2359,7 +2433,6 @@ function imprimirProposta(p) {
         `;
     });
     
-    // Campos personalizados
     let camposHtml = '';
     if (p.camposPersonalizados && p.camposPersonalizados.length > 0) {
         camposHtml = `
@@ -2395,32 +2468,33 @@ function imprimirProposta(p) {
         <title>${p.numero}</title>
         <style>
             @page { margin: 12px; }
-            body { font-family: 'Courier New', Courier, monospace; font-size: 10px; margin: 0; padding: 12px; background: #fff; }
+            body { font-family: 'Courier New', Courier, monospace; font-size: 12px; margin: 0; padding: 12px; background: #fff; }
             .container { max-width: 210mm; margin: 0 auto; }
             .header { text-align: center; border-bottom: 2px solid #0a3d6b; padding-bottom: 6px; margin-bottom: 6px; }
             .logo { max-height: 40px; }
-            .title { font-size: 12px; font-weight: bold; margin-top: 2px; }
+            .title { font-size: 14px; font-weight: bold; margin-top: 2px; }
             .row { display: flex; justify-content: space-between; margin: 1px 0; }
             .label { font-weight: bold; }
-            .section { font-weight: bold; font-size: 10px; margin: 6px 0 3px 0; border-bottom: 1px solid #000; padding-bottom: 1px; }
+            .section { font-weight: bold; font-size: 12px; margin: 6px 0 3px 0; border-bottom: 1px solid #000; padding-bottom: 1px; }
             table { width: 100%; border-collapse: collapse; margin: 2px 0; }
             td { padding: 1px 3px; vertical-align: top; }
-            .servicos-table { border-collapse: collapse; font-size: 8.5px; }
+            .servicos-table { border-collapse: collapse; font-size: 9.5px; }
             .servicos-table td, .servicos-table th { border: 1px solid #000; padding: 2px 5px; }
             .servicos-table th { background: #f0f0f0; font-weight: bold; text-align: center; }
             .total-row td { font-weight: bold; border-top: 2px solid #000; }
             .desconto-row td { border-top: 1px solid #ccc; }
-            .parcelas-table { border-collapse: collapse; margin: 3px 0; font-size: 8.5px; }
+            .parcelas-table { border-collapse: collapse; margin: 3px 0; font-size: 9.5px; }
             .parcelas-table td, .parcelas-table th { border: 1px solid #000; padding: 2px 15px; }
             .parcelas-table th { background: #f0f0f0; font-weight: bold; }
-            .assinatura { margin-top: 25px; display: flex; justify-content: space-between; }
-            .assinatura div { text-align: center; }
-            .assinatura .line { width: 180px; border-top: 1px solid #000; margin: 4px auto; }
-            .assinatura .nome { font-weight: bold; font-size: 11px; }
-            .assinatura .cargo { font-size: 6.5px; color: #6c757d; }
-            .footer { text-align: center; font-size: 6.5px; color: #6c757d; margin-top: 8px; border-top: 1px solid #ddd; padding-top: 3px; }
-            .texto-clausula { margin: 2px 0; text-align: justify; font-size: 10px; }
-            .texto-clausula-num { margin: 2px 0; text-align: justify; font-size: 10px; padding-left: 10px; }
+            .assinatura { margin-top: 35px; display: flex; justify-content: space-between; align-items: flex-start; }
+            .assinatura div { text-align: center; width: 45%; }
+            .assinatura .line { width: 200px; border-top: 1px solid #000; margin: 8px auto; }
+            .assinatura .nome { font-weight: bold; font-size: 12px; }
+            .assinatura .cargo { font-size: 8px; color: #6c757d; margin-top: 4px; }
+            .assinatura .espaco-assinatura { height: 60px; }
+            .footer { text-align: center; font-size: 8px; color: #6c757d; margin-top: 12px; border-top: 1px solid #ddd; padding-top: 4px; }
+            .texto-clausula { margin: 3px 0; text-align: justify; font-size: 12px; }
+            .texto-clausula-num { margin: 3px 0; text-align: justify; font-size: 12px; padding-left: 15px; }
         </style>
     </head>
     <body>
@@ -2494,13 +2568,15 @@ function imprimirProposta(p) {
             <div class="section">8.0 - ACEITE FORMAL</div>
             <div class="assinatura">
                 <div>
-                    <div class="nome">${p.contratante || '_________________________'}</div>
+                    <div class="espaco-assinatura"></div>
                     <div class="line"></div>
+                    <div class="nome">${p.contratante || '_________________________'}</div>
                     <div class="cargo">(Assinatura do Contratante)</div>
                 </div>
                 <div>
-                    <div class="nome">${config.empresa}</div>
+                    <div class="espaco-assinatura"></div>
                     <div class="line"></div>
+                    <div class="nome">${config.empresa}</div>
                     <div class="cargo">(Assinatura)</div>
                 </div>
             </div>
@@ -2528,7 +2604,7 @@ function gerarPDFTodasPropostas() {
     let html = `
     <html><head><meta charset="UTF-8"><title>Todas as Propostas</title>
     <style>
-        body{font-family:'Courier New',monospace;font-size:10px;padding:15px;}
+        body{font-family:'Courier New',monospace;font-size:12px;padding:15px;}
         table{width:100%;border-collapse:collapse;}
         th,td{border:1px solid #000;padding:3px 6px;text-align:left;}
         th{background:#0a3d6b;color:#fff;}
@@ -2550,6 +2626,179 @@ function gerarPDFTodasPropostas() {
     win.document.write(html);
     win.document.close();
     setTimeout(() => win.print(), 500);
+}
+
+// ============================================================
+// GERAR PDF RECEITAS - VERSÃO EXECUTIVA
+// ============================================================
+function gerarPDFReceitas() {
+    const receitas = allData.receitas || [];
+    if (receitas.length === 0) { toast('Nenhuma receita para gerar', 'warning'); return; }
+    
+    const LOGO = "https://i.imgur.com/W4wgZeD.jpeg";
+    const config = {
+        empresa: document.getElementById('configEmpresa').value || 'AMAZON NAVAL LTDA'
+    };
+    
+    // Resumo Geral
+    const totalGeral = receitas.reduce((s, r) => s + (r.valor || 0), 0);
+    const totalRecebido = receitas.filter(r => r.status === 'Paga').reduce((s, r) => s + (r.valor || 0), 0);
+    const totalPendente = receitas.filter(r => r.status === 'Pendente').reduce((s, r) => s + (r.valor || 0), 0);
+    const totalVencido = receitas.filter(r => r.status === 'Vencida').reduce((s, r) => s + (r.valor || 0), 0);
+    const totalAReceber = totalPendente + totalVencido;
+    
+    // Agrupar por mês
+    const meses = {};
+    receitas.forEach(r => {
+        if (r.data) {
+            const mes = getMesAno(r.data);
+            if (mes) {
+                if (!meses[mes]) meses[mes] = { total: 0, recebido: 0, parcelas: 0 };
+                meses[mes].total += r.valor || 0;
+                meses[mes].parcelas += 1;
+                if (r.status === 'Paga') {
+                    meses[mes].recebido += r.valor || 0;
+                }
+            }
+        }
+    });
+    
+    // Ordenar meses
+    const mesesOrdenados = Object.keys(meses).sort();
+    const mesesLabels = mesesOrdenados.map(m => {
+        const [ano, mes] = m.split('-');
+        const mesesNome = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        return mesesNome[parseInt(mes) - 1] + '/' + ano;
+    });
+    
+    // Formas de Recebimento
+    const formas = {};
+    receitas.forEach(r => {
+        const forma = r.formaRecebimento || r.pagamento || 'Outros';
+        formas[forma] = (formas[forma] || 0) + (r.valor || 0);
+    });
+    
+    let mesesHtml = '';
+    mesesOrdenados.forEach((m, i) => {
+        const data = meses[m];
+        mesesHtml += `
+            <tr>
+                <td>${mesesLabels[i]}</td>
+                <td style="text-align:center;">${data.parcelas}</td>
+                <td style="text-align:right;">${formatMoeda(data.total)}</td>
+                <td style="text-align:right;">${formatMoeda(data.recebido)}</td>
+            </tr>
+        `;
+    });
+    
+    let formasHtml = '';
+    for (const [forma, valor] of Object.entries(formas)) {
+        formasHtml += `
+            <tr>
+                <td>${forma}</td>
+                <td style="text-align:right;">${formatMoeda(valor)}</td>
+            </tr>
+        `;
+    }
+    
+    const totalParcelas = receitas.length;
+    const totalPropostas = [...new Set(receitas.map(r => r.orcamento).filter(Boolean))].length;
+    
+    const html = `
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Relatório de Receitas</title>
+        <style>
+            @page { margin: 15px; }
+            body { font-family: 'Courier New', Courier, monospace; font-size: 12px; margin: 0; padding: 15px; background: #fff; }
+            .container { max-width: 210mm; margin: 0 auto; }
+            .header { text-align: center; border-bottom: 2px solid #0a3d6b; padding-bottom: 8px; margin-bottom: 12px; }
+            .logo { max-height: 45px; }
+            .title { font-size: 16px; font-weight: bold; margin-top: 4px; }
+            .subtitle { font-size: 12px; color: #6c757d; }
+            .section { font-weight: bold; font-size: 12px; margin: 12px 0 6px 0; border-bottom: 1px solid #000; padding-bottom: 2px; }
+            table { width: 100%; border-collapse: collapse; margin: 4px 0; }
+            th { background: #0a3d6b; color: #fff; padding: 4px 8px; text-align: left; font-size: 11px; }
+            td { padding: 3px 8px; border-bottom: 1px solid #ddd; }
+            .total-row td { font-weight: bold; border-top: 2px solid #000; }
+            .resumo-geral { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 10px 0; }
+            .resumo-geral .card { background: #f8f9fa; padding: 8px 12px; border-radius: 6px; text-align: center; }
+            .resumo-geral .card .valor { font-weight: bold; font-size: 14px; }
+            .footer { text-align: center; font-size: 8px; color: #6c757d; margin-top: 15px; border-top: 1px solid #ddd; padding-top: 4px; }
+            .status-badge { display: inline-block; padding: 1px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; }
+            .status-pendente { background: #fff3cd; color: #856404; }
+            .status-paga { background: #d4edda; color: #155724; }
+            .status-vencida { background: #f8d7da; color: #721c24; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <img src="${LOGO}" alt="AMAZON NAVAL" class="logo">
+                <div class="title">RELATÓRIO DE RECEITAS</div>
+                <div class="subtitle">Período: Todos</div>
+            </div>
+            
+            <div class="section">📊 RESUMO GERAL</div>
+            <div class="resumo-geral">
+                <div class="card"><div>Total de Propostas</div><div class="valor">${totalPropostas}</div></div>
+                <div class="card"><div>Total de Parcelas</div><div class="valor">${totalParcelas}</div></div>
+                <div class="card"><div>Total Geral</div><div class="valor">${formatMoeda(totalGeral)}</div></div>
+                <div class="card"><div>Total Recebido</div><div class="valor" style="color:#28a745;">${formatMoeda(totalRecebido)}</div></div>
+                <div class="card"><div>Total a Receber</div><div class="valor" style="color:#dc3545;">${formatMoeda(totalAReceber)}</div></div>
+            </div>
+            
+            <div class="section">📅 RECEBIMENTOS POR MÊS</div>
+            <table>
+                <thead><tr><th>Mês</th><th style="text-align:center;">Parcelas</th><th style="text-align:right;">Valor Total</th><th style="text-align:right;">Recebido</th></tr></thead>
+                <tbody>
+                    ${mesesHtml}
+                    <tr class="total-row">
+                        <td><strong>TOTAL</strong></td>
+                        <td style="text-align:center;"><strong>${totalParcelas}</strong></td>
+                        <td style="text-align:right;"><strong>${formatMoeda(totalGeral)}</strong></td>
+                        <td style="text-align:right;"><strong>${formatMoeda(totalRecebido)}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="section">📊 RESUMO POR STATUS</div>
+            <table>
+                <thead><tr><th>Status</th><th style="text-align:right;">Valor</th><th>Classificação</th></tr></thead>
+                <tbody>
+                    <tr><td><span class="status-badge status-pendente">Pendente</span></td><td style="text-align:right;">${formatMoeda(totalPendente)}</td><td>A Receber</td></tr>
+                    <tr><td><span class="status-badge status-paga">Paga</span></td><td style="text-align:right;">${formatMoeda(totalRecebido)}</td><td>Recebido</td></tr>
+                    <tr><td><span class="status-badge status-vencida">Vencida</span></td><td style="text-align:right;">${formatMoeda(totalVencido)}</td><td>A Receber</td></tr>
+                </tbody>
+            </table>
+            
+            <div class="section">📊 FORMAS DE RECEBIMENTO</div>
+            <table>
+                <thead><tr><th>Forma</th><th style="text-align:right;">Valor</th></tr></thead>
+                <tbody>
+                    ${formasHtml}
+                    <tr class="total-row">
+                        <td><strong>TOTAL</strong></td>
+                        <td style="text-align:right;"><strong>${formatMoeda(totalGeral)}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="footer">
+                Documento gerado em: ${new Date().toLocaleDateString('pt-BR')} ${new Date().toLocaleTimeString('pt-BR')}<br>
+                ${config.empresa} - Sistema de Orçamento
+            </div>
+        </div>
+        <script>
+            setTimeout(() => window.print(), 500);
+        <\/script>
+    </body>
+    </html>`;
+    
+    const win = window.open('', '_blank');
+    win.document.write(html);
+    win.document.close();
 }
 
 // ============================================================
@@ -2725,6 +2974,11 @@ function editarProposta(id) {
         setCamposPersonalizados(p.camposPersonalizados);
     }
     
+    // Validar o número da proposta (marcar como válido se existir)
+    document.getElementById('numeroStatus').textContent = '✅ Número disponível';
+    document.getElementById('numeroStatus').style.color = '#28a745';
+    document.getElementById('fNumero').classList.add('valido');
+    
     calcularTotais();
 }
 
@@ -2753,7 +3007,7 @@ function limparFiltrosPropostas() {
 }
 
 // ============================================================
-// RECEITAS
+// RECEITAS (COM TOTAIS E EDIÇÃO EM LOTE)
 // ============================================================
 let receitasPaginaAtual = 1;
 const RECEITAS_POR_PAGINA = 25;
@@ -2812,8 +3066,15 @@ function renderReceitas() {
     
     const total = filtered.length;
     document.getElementById('totalReceitas').textContent = total;
-    const totalValor = filtered.reduce((s, r) => s + (r.valor || 0), 0);
-    document.getElementById('totalReceitasValor').textContent = 'Total: ' + formatMoeda(totalValor);
+    
+    // Calcular totais
+    const totalGeral = filtered.reduce((s, r) => s + (r.valor || 0), 0);
+    const totalRecebido = filtered.filter(r => r.status === 'Paga').reduce((s, r) => s + (r.valor || 0), 0);
+    const totalPendente = filtered.filter(r => r.status === 'Pendente').reduce((s, r) => s + (r.valor || 0), 0);
+    const totalVencido = filtered.filter(r => r.status === 'Vencida').reduce((s, r) => s + (r.valor || 0), 0);
+    const totalAReceber = totalPendente + totalVencido;
+    
+    document.getElementById('totalReceitasValor').textContent = 'Total: ' + formatMoeda(totalGeral);
     
     const totalPaginas = Math.ceil(total / RECEITAS_POR_PAGINA);
     if (receitasPaginaAtual > totalPaginas) receitasPaginaAtual = totalPaginas || 1;
@@ -2845,6 +3106,63 @@ function renderReceitas() {
         `).join('');
     }
     
+    // TOTAIS NA TABELA
+    const tfoot = document.getElementById('receitasTotais');
+    if (paginated.length > 0) {
+        tfoot.innerHTML = `
+            <tr class="totais-receitas">
+                <td colspan="4" style="text-align:right;font-weight:600;color:var(--primary);">TOTAIS:</td>
+                <td style="font-weight:600;color:var(--primary);">${formatMoeda(totalGeral)}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr style="background:#fff3cd;border-bottom:1px solid #ddd;">
+                <td colspan="4" style="text-align:right;font-weight:600;color:#856404;">🔴 TOTAL A PAGAR:</td>
+                <td style="font-weight:600;color:#856404;">${formatMoeda(totalPendente)}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr style="background:#d4edda;border-bottom:1px solid #ddd;">
+                <td colspan="4" style="text-align:right;font-weight:600;color:#155724;">🟢 TOTAL RECEBIDO:</td>
+                <td style="font-weight:600;color:#155724;">${formatMoeda(totalRecebido)}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr style="background:#f8d7da;border-bottom:1px solid #ddd;">
+                <td colspan="4" style="text-align:right;font-weight:600;color:#721c24;">🟡 TOTAL VENCIDO:</td>
+                <td style="font-weight:600;color:#721c24;">${formatMoeda(totalVencido)}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr style="background:#e9ecef;font-weight:700;border-top:2px solid #0a3d6b;">
+                <td colspan="4" style="text-align:right;color:var(--primary);">🔵 TOTAL GERAL:</td>
+                <td style="color:var(--primary);">${formatMoeda(totalGeral)}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr style="background:#cce5ff;">
+                <td colspan="4" style="text-align:right;font-weight:600;color:#004085;">📌 TOTAL A RECEBER (Pendente + Vencido):</td>
+                <td style="font-weight:600;color:#004085;">${formatMoeda(totalAReceber)}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        `;
+    } else {
+        tfoot.innerHTML = '';
+    }
+    
     const info = document.getElementById('receitasPagination');
     let pagHtml = `<button onclick="receitasPaginaAtual=1;renderReceitas();" ${receitasPaginaAtual <= 1 ? 'disabled' : ''}><i class="bi bi-chevron-double-left"></i></button>`;
     pagHtml += `<button onclick="receitasPaginaAtual--;renderReceitas();" ${receitasPaginaAtual <= 1 ? 'disabled' : ''}><i class="bi bi-chevron-left"></i></button>`;
@@ -2862,6 +3180,34 @@ function renderReceitas() {
 function editarReceita(id) {
     const r = allData.receitas.find(item => item.id === id);
     if (!r) return;
+    
+    // Verificar se faz parte de um grupo de parcelas
+    const propostas = allData.propostas || [];
+    const proposta = propostas.find(p => p.numero === r.orcamento);
+    
+    if (proposta && proposta.numParcelas > 1) {
+        // Abrir modal de edição em lote
+        loteEditId = id;
+        loteDados = {
+            id: id,
+            orcamento: r.orcamento,
+            total: proposta.totalGeral,
+            parcelas: proposta.numParcelas,
+            parcelaAtual: r.parcela || '1/' + proposta.numParcelas
+        };
+        
+        document.getElementById('loteInfo').innerHTML = `
+            📌 Proposta: <strong>${r.orcamento}</strong><br>
+            📌 Parcela: <strong>${r.parcela || '1/1'}</strong><br>
+            📌 Total: <strong>${formatMoeda(proposta.totalGeral)}</strong><br>
+            📌 ${proposta.numParcelas} parcelas
+        `;
+        
+        new bootstrap.Modal(document.getElementById('modalEdicaoLote')).show();
+        return;
+    }
+    
+    // Se não for grupo, abrir edição normal
     document.getElementById('receitaModalId').value = r.id;
     document.getElementById('receitaModalData').value = formatDateInput(r.data);
     document.getElementById('receitaModalOrcamento').value = r.orcamento || '';
@@ -2873,6 +3219,50 @@ function editarReceita(id) {
     document.getElementById('receitaModalStatus').value = r.status || 'Pendente';
     document.getElementById('autocompleteClienteList').style.display = 'none';
     new bootstrap.Modal(document.getElementById('modalReceita')).show();
+}
+
+function confirmarEdicaoLote() {
+    const aplicarEmTodas = document.getElementById('loteAplicarEmTodas').value === 'sim';
+    if (aplicarEmTodas) {
+        // Abrir modal de edição normal, mas com flag de lote
+        const r = allData.receitas.find(item => item.id === loteEditId);
+        if (!r) return;
+        
+        document.getElementById('receitaModalId').value = r.id;
+        document.getElementById('receitaModalData').value = formatDateInput(r.data);
+        document.getElementById('receitaModalOrcamento').value = r.orcamento || '';
+        document.getElementById('receitaModalDescricao').value = r.descricao || '';
+        document.getElementById('receitaModalCliente').value = r.cliente || '';
+        document.getElementById('receitaModalValor').value = r.valor || '';
+        document.getElementById('receitaModalParcelas').value = '1';
+        document.getElementById('receitaModalFormaRecebimento').value = r.formaRecebimento || r.pagamento || 'PIX';
+        document.getElementById('receitaModalStatus').value = r.status || 'Pendente';
+        document.getElementById('autocompleteClienteList').style.display = 'none';
+        
+        // Adicionar flag para indicar edição em lote
+        document.getElementById('receitaModalId').dataset.lote = 'true';
+        
+        bootstrap.Modal.getInstance(document.getElementById('modalEdicaoLote')).hide();
+        new bootstrap.Modal(document.getElementById('modalReceita')).show();
+    } else {
+        // Edição normal
+        bootstrap.Modal.getInstance(document.getElementById('modalEdicaoLote')).hide();
+        const r = allData.receitas.find(item => item.id === loteEditId);
+        if (!r) return;
+        
+        document.getElementById('receitaModalId').value = r.id;
+        document.getElementById('receitaModalData').value = formatDateInput(r.data);
+        document.getElementById('receitaModalOrcamento').value = r.orcamento || '';
+        document.getElementById('receitaModalDescricao').value = r.descricao || '';
+        document.getElementById('receitaModalCliente').value = r.cliente || '';
+        document.getElementById('receitaModalValor').value = r.valor || '';
+        document.getElementById('receitaModalParcelas').value = '1';
+        document.getElementById('receitaModalFormaRecebimento').value = r.formaRecebimento || r.pagamento || 'PIX';
+        document.getElementById('receitaModalStatus').value = r.status || 'Pendente';
+        document.getElementById('autocompleteClienteList').style.display = 'none';
+        document.getElementById('receitaModalId').dataset.lote = '';
+        new bootstrap.Modal(document.getElementById('modalReceita')).show();
+    }
 }
 
 async function confirmarPagamentoReceita(id) {
@@ -2899,6 +3289,7 @@ async function mudarStatusReceita(id) {
 
 function abrirModalReceita() {
     document.getElementById('receitaModalId').value = '';
+    document.getElementById('receitaModalId').dataset.lote = '';
     document.getElementById('receitaModalData').value = new Date().toISOString().split('T')[0];
     document.getElementById('receitaModalOrcamento').value = '';
     document.getElementById('receitaModalDescricao').value = '';
@@ -2914,6 +3305,7 @@ function abrirModalReceita() {
 
 async function salvarReceita() {
     const id = document.getElementById('receitaModalId').value;
+    const isLote = document.getElementById('receitaModalId').dataset.lote === 'true';
     const numParcelas = parseInt(document.getElementById('receitaModalParcelas').value) || 1;
     const valorTotal = parseFloat(document.getElementById('receitaModalValor').value) || 0;
     const valorParcela = numParcelas > 0 ? valorTotal / numParcelas : 0;
@@ -2928,10 +3320,30 @@ async function salvarReceita() {
     if (valorTotal <= 0) { toast('Informe o valor', 'error'); return; }
     
     if (id) {
+        // Edição
         const data = { data: dataBase, orcamento, descricao, cliente, valor: valorTotal, formaRecebimento, status, parcela: '1/1' };
-        await updateDocument('receitas', id, data);
-        toast('Receita atualizada!');
+        
+        if (isLote) {
+            // Aplicar em todas as parcelas da mesma proposta
+            const todasReceitas = allData.receitas.filter(r => r.orcamento === orcamento);
+            for (const r of todasReceitas) {
+                const idx = allData.receitas.findIndex(item => item.id === r.id);
+                if (idx !== -1) {
+                    const updateData = {
+                        cliente: cliente,
+                        formaRecebimento: formaRecebimento,
+                        status: status
+                    };
+                    await updateDocument('receitas', r.id, updateData);
+                }
+            }
+            toast('✅ Todas as parcelas foram atualizadas!');
+        } else {
+            await updateDocument('receitas', id, data);
+            toast('Receita atualizada!');
+        }
     } else {
+        // Nova receita
         const dataBaseDate = new Date(dataBase);
         for (let i = 0; i < numParcelas; i++) {
             const dataVencimento = new Date(dataBaseDate);
@@ -2949,7 +3361,9 @@ async function salvarReceita() {
         }
         toast(`${numParcelas} receitas criadas!`);
     }
+    
     bootstrap.Modal.getInstance(document.getElementById('modalReceita')).hide();
+    document.getElementById('receitaModalId').dataset.lote = '';
     renderReceitas();
     carregarDashboard();
 }
@@ -3797,13 +4211,11 @@ function carregarExemplos() {
 let deferredPrompt = null;
 
 function verificarPWA() {
-    // Verificar se já está instalado como PWA
     if (window.matchMedia('(display-mode: standalone)').matches) {
         document.getElementById('installBanner').style.display = 'none';
         return;
     }
     
-    // Verificar se o navegador suporta instalação
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
@@ -3849,7 +4261,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('relDataInicio').value = '';
     document.getElementById('relDataFim').value = '';
     
-    // Verificar se já está logado
     auth.onAuthStateChanged(user => {
         if (user) {
             currentUser = user;
@@ -3860,7 +4271,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Fechar autocomplete ao clicar fora
 document.addEventListener('click', function(e) {
     document.querySelectorAll('.autocomplete-list').forEach(el => {
         if (!el.contains(e.target)) {
