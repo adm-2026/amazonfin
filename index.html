@@ -336,13 +336,33 @@
         .servico-item .valor { font-weight: 600; color: var(--primary); min-width: 100px; text-align: right; }
         .servico-item .categoria { font-size: 0.7rem; color: #6c757d; min-width: 80px; }
         
-        .table-responsive-wrapper {
-            max-height: 500px;
+        /* TABELA DE RECEITAS - ALTURA INTEGRAL */
+        .table-receitas-wrapper {
+            height: 65vh;
+            min-height: 400px;
             overflow-y: auto;
             border-radius: 8px;
             border: 1px solid #dee2e6;
         }
-        .table-responsive-wrapper table { margin-bottom: 0; }
+        .table-receitas-wrapper table { margin-bottom: 0; }
+        .table-receitas-wrapper thead { position: sticky; top: 0; z-index: 20; }
+        .table-receitas-wrapper thead th { background: #f8f9fa; }
+        
+        /* SKELETON LOADING */
+        .skeleton {
+            animation: pulse 1.5s ease-in-out infinite;
+            background: #e9ecef;
+            border-radius: 4px;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        .skeleton-text { height: 12px; margin: 4px 0; }
+        .skeleton-title { height: 20px; width: 60%; }
+        .skeleton-card { height: 60px; border-radius: 8px; }
+        
         .table-footer {
             display: flex;
             justify-content: space-between;
@@ -503,7 +523,6 @@
         .totais-receitas .label-vencido { color: #ffc107; }
         .totais-receitas .label-geral { color: var(--primary); }
         
-        /* ===== ASSINATURA CORRIGIDA ===== */
         .assinatura {
             display: flex;
             justify-content: space-between;
@@ -544,6 +563,19 @@
             height: 40px;
             flex-shrink: 0;
         }
+        
+        /* CONFIG - ALTERAR SENHA */
+        .config-senha-box {
+            background: #f8f9fa;
+            padding: 18px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .config-senha-box .btn-primary { width: 100%; }
+        
+        /* BACKUP/RESTORE */
+        .backup-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .backup-actions .btn { flex: 1; min-width: 120px; }
         
         @media print {
             .sidebar, .topbar, .toolbar, .no-print { display: none !important; }
@@ -594,7 +626,7 @@
 <div id="loadingOverlay" class="loading-overlay" style="display:none;">
     <div>
         <div class="spinner">⏳</div>
-        <p>Carregando dados...</p>
+        <p id="loadingText">Carregando dados...</p>
     </div>
 </div>
 
@@ -971,7 +1003,7 @@
             </div>
         </div>
 
-        <!-- PAGE: RECEITAS (COM TOTAIS E EDIÇÃO EM LOTE) -->
+        <!-- PAGE: RECEITAS (TABELA INTEGRAL) -->
         <div class="page-content" id="page-receita">
             <div class="card-custom">
                 <div class="card-title">
@@ -997,7 +1029,7 @@
                         <button class="btn btn-sm btn-info" onclick="gerarPDFReceitas()"><i class="bi bi-file-pdf"></i> PDF</button>
                     </div>
                 </div>
-                <div class="table-responsive-wrapper">
+                <div class="table-receitas-wrapper">
                     <table class="table-custom">
                         <thead><tr><th>Vencimento</th><th>Nº Orçamento</th><th>Descrição</th><th>Cliente</th><th>Valor</th><th>Parcela</th><th>Status</th><th>Forma de Recebimento</th><th>Ações</th></tr></thead>
                         <tbody id="receitasBody"></tbody>
@@ -1096,10 +1128,13 @@
             </div>
         </div>
 
-        <!-- PAGE: CONFIG -->
+        <!-- PAGE: CONFIG (COM ALTERAR SENHA E BACKUP/RESTORE) -->
         <div class="page-content" id="page-config">
             <div class="card-custom">
                 <div class="card-title"><span><i class="bi bi-gear"></i> Configurações</span></div>
+                
+                <!-- Dados da Empresa -->
+                <div style="font-weight:600;font-size:0.85rem;color:#0a3d6b;margin:15px 0 5px 0;border-bottom:1px solid #ddd;padding-bottom:3px;">DADOS DA EMPRESA</div>
                 <div class="form-row">
                     <div class="form-group"><label>Dados da Empresa</label>
                         <input class="form-control" id="configEmpresa" placeholder="AMAZON NAVAL LTDA" value="AMAZON NAVAL LTDA">
@@ -1124,11 +1159,37 @@
                         <input class="form-control" id="configPrazo" type="number" value="30">
                     </div>
                 </div>
-                <div class="d-flex gap-2 mt-3 flex-wrap">
-                    <button class="btn btn-primary" onclick="salvarConfiguracoes()"><i class="bi bi-save"></i> Salvar</button>
-                    <button class="btn btn-danger" onclick="limparDados()"><i class="bi bi-trash"></i> Limpar Todos os Dados</button>
-                    <button class="btn btn-success" onclick="carregarExemplos()"><i class="bi bi-database"></i> Carregar Exemplos</button>
+
+                <!-- ALTERAR SENHA -->
+                <div style="font-weight:600;font-size:0.85rem;color:#0a3d6b;margin:20px 0 5px 0;border-bottom:1px solid #ddd;padding-bottom:3px;">🔑 ALTERAR SENHA</div>
+                <div class="config-senha-box">
+                    <div class="form-row">
+                        <div class="form-group"><label>Senha Atual</label>
+                            <input type="password" class="form-control" id="senhaAtual" placeholder="Digite sua senha atual">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Nova Senha</label>
+                            <input type="password" class="form-control" id="novaSenha" placeholder="Digite a nova senha" minlength="6">
+                        </div>
+                        <div class="form-group"><label>Confirmar Nova Senha</label>
+                            <input type="password" class="form-control" id="confirmarSenha" placeholder="Confirme a nova senha" minlength="6">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="alterarSenha()"><i class="bi bi-key"></i> Alterar Senha</button>
+                    <div id="senhaStatus" style="margin-top:8px;font-size:0.8rem;"></div>
                 </div>
+
+                <!-- BACKUP / RESTORE -->
+                <div style="font-weight:600;font-size:0.85rem;color:#0a3d6b;margin:20px 0 5px 0;border-bottom:1px solid #ddd;padding-bottom:3px;">💾 BACKUP / RESTORE</div>
+                <div class="backup-actions">
+                    <button class="btn btn-success" onclick="exportarBackup()"><i class="bi bi-download"></i> Exportar Backup</button>
+                    <button class="btn btn-warning" onclick="document.getElementById('restoreInput').click()"><i class="bi bi-upload"></i> Restaurar Backup</button>
+                    <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="importarBackup(event)">
+                    <button class="btn btn-danger" onclick="limparDados()"><i class="bi bi-trash"></i> Limpar Todos os Dados</button>
+                    <button class="btn btn-info" onclick="carregarExemplos()"><i class="bi bi-database"></i> Carregar Exemplos</button>
+                </div>
+                <div id="backupStatus" style="margin-top:8px;font-size:0.8rem;"></div>
             </div>
         </div>
     </div>
@@ -1457,6 +1518,7 @@ let ultimoNumeroProposta = 0;
 let camposPersonalizados = [];
 let loteEditId = null;
 let loteDados = null;
+let dadosCarregados = false;
 
 // ============================================================
 // FUNÇÕES DE AUTENTICAÇÃO
@@ -1492,6 +1554,7 @@ function entrarNoSistema() {
     document.getElementById('userName').textContent = currentUser ? currentUser.email : 'Usuário';
     carregarDados();
     verificarPWA();
+    verificarTarefasAgendadas();
 }
 
 function logout() {
@@ -1505,18 +1568,63 @@ function logout() {
 }
 
 // ============================================================
-// CARREGAR DADOS DO FIRESTORE
+// VERIFICAR TAREFAS AGENDADAS
+// ============================================================
+function verificarTarefasAgendadas() {
+    // Verificar receitas vencendo em 5 dias
+    const hoje = new Date();
+    const receitas = allData.receitas || [];
+    const vencendo = receitas.filter(r => {
+        if (!r.data || r.status === 'Paga') return false;
+        const dt = new Date(r.data);
+        const diff = Math.ceil((dt - hoje) / (1000 * 60 * 60 * 24));
+        return diff >= 0 && diff <= 5;
+    });
+    
+    if (vencendo.length > 0) {
+        setTimeout(() => {
+            toast(`⚠️ ${vencendo.length} receita(s) vencem nos próximos 5 dias!`, 'warning');
+        }, 2000);
+    }
+    
+    // Verificar propostas pendentes há mais de 15 dias
+    const propostas = allData.propostas || [];
+    const pendentes = propostas.filter(p => {
+        if (!p.criadoEm || p.status !== 'Pendente') return false;
+        const dt = new Date(p.criadoEm);
+        const diff = Math.ceil((hoje - dt) / (1000 * 60 * 60 * 24));
+        return diff > 15;
+    });
+    
+    if (pendentes.length > 0) {
+        setTimeout(() => {
+            toast(`📄 ${pendentes.length} proposta(s) pendentes há mais de 15 dias!`, 'info');
+        }, 3000);
+    }
+}
+
+// ============================================================
+// CARREGAR DADOS DO FIRESTORE (COM LAZY LOADING)
 // ============================================================
 async function carregarDados() {
+    if (dadosCarregados) return;
+    
     mostrarLoading(true);
+    document.getElementById('loadingText').textContent = 'Carregando dados...';
+    
     try {
         const collections = ['propostas', 'receitas', 'despesas', 'precos', 'pessoas', 'beneficiarios', 'configuracoes'];
+        let total = collections.length;
+        let loaded = 0;
+        
         for (const nome of collections) {
+            document.getElementById('loadingText').textContent = `Carregando ${nome}... (${loaded+1}/${total})`;
             const snapshot = await db.collection(nome).get();
             allData[nome] = [];
             snapshot.forEach(doc => {
                 allData[nome].push({ id: doc.id, ...doc.data() });
             });
+            loaded++;
         }
         
         if (allData.precos.length === 0) {
@@ -1563,6 +1671,9 @@ async function carregarDados() {
         }
         
         calcularUltimoNumero();
+        dadosCarregados = true;
+        
+        document.getElementById('loadingText').textContent = 'Renderizando...';
         
         renderTabelaPrecos();
         carregarServicosCadastro();
@@ -1577,7 +1688,6 @@ async function carregarDados() {
         gerarRelatorio();
         atualizarAlertas();
         
-        // Carregar exemplos de receitas adicionais
         await carregarExemplosReceitas();
         
         toast('✅ Dados carregados do Firebase!', 'success');
@@ -1589,7 +1699,6 @@ async function carregarDados() {
 }
 
 async function carregarExemplosReceitas() {
-    // Verifica se já existem receitas
     const receitas = allData.receitas || [];
     if (receitas.length > 0) return;
     
@@ -1763,7 +1872,7 @@ function getMesAno(dataStr) {
 }
 
 // ============================================================
-// VALIDAÇÃO DO NÚMERO DA PROPOSTA (BLOQUEIO DE DUPLICADOS)
+// VALIDAÇÃO DO NÚMERO DA PROPOSTA
 // ============================================================
 async function validarNumeroProposta() {
     const el = document.getElementById('fNumero');
@@ -2571,7 +2680,6 @@ function imprimirProposta(p) {
             .parcelas-table td, .parcelas-table th { border: 1px solid #000; padding: 2px 15px; }
             .parcelas-table th { background: #f0f0f0; font-weight: bold; }
             
-            /* ===== ASSINATURA CORRIGIDA ===== */
             .assinatura {
                 display: flex;
                 justify-content: space-between;
@@ -4249,6 +4357,155 @@ function calcularDRE() {
 }
 
 // ============================================================
+// CONFIGURAÇÕES - ALTERAR SENHA
+// ============================================================
+async function alterarSenha() {
+    const senhaAtual = document.getElementById('senhaAtual').value;
+    const novaSenha = document.getElementById('novaSenha').value;
+    const confirmarSenha = document.getElementById('confirmarSenha').value;
+    const statusEl = document.getElementById('senhaStatus');
+    
+    if (!senhaAtual) {
+        statusEl.innerHTML = '❌ Digite sua senha atual';
+        statusEl.style.color = '#dc3545';
+        return;
+    }
+    
+    if (!novaSenha || novaSenha.length < 6) {
+        statusEl.innerHTML = '❌ A nova senha deve ter pelo menos 6 caracteres';
+        statusEl.style.color = '#dc3545';
+        return;
+    }
+    
+    if (novaSenha !== confirmarSenha) {
+        statusEl.innerHTML = '❌ As senhas não coincidem';
+        statusEl.style.color = '#dc3545';
+        return;
+    }
+    
+    statusEl.innerHTML = '⏳ Alterando senha...';
+    statusEl.style.color = '#ffc107';
+    
+    try {
+        const user = auth.currentUser;
+        const credential = firebase.auth.EmailAuthProvider.credential(user.email, senhaAtual);
+        await user.reauthenticateWithCredential(credential);
+        await user.updatePassword(novaSenha);
+        
+        statusEl.innerHTML = '✅ Senha alterada com sucesso!';
+        statusEl.style.color = '#28a745';
+        document.getElementById('senhaAtual').value = '';
+        document.getElementById('novaSenha').value = '';
+        document.getElementById('confirmarSenha').value = '';
+        toast('🔑 Senha alterada com sucesso!', 'success');
+    } catch (error) {
+        console.error('Erro ao alterar senha:', error);
+        if (error.code === 'auth/wrong-password') {
+            statusEl.innerHTML = '❌ Senha atual incorreta';
+        } else {
+            statusEl.innerHTML = '❌ Erro ao alterar senha: ' + error.message;
+        }
+        statusEl.style.color = '#dc3545';
+        toast('❌ Erro ao alterar senha', 'error');
+    }
+}
+
+// ============================================================
+// BACKUP / RESTORE
+// ============================================================
+function exportarBackup() {
+    const data = {
+        versao: '1.0',
+        dataExportacao: new Date().toISOString(),
+        propostas: allData.propostas || [],
+        receitas: allData.receitas || [],
+        despesas: allData.despesas || [],
+        precos: allData.precos || [],
+        pessoas: allData.pessoas || [],
+        beneficiarios: allData.beneficiarios || [],
+        configuracoes: allData.configuracoes || []
+    };
+    
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `backup_amazon_${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    document.getElementById('backupStatus').innerHTML = '✅ Backup exportado com sucesso!';
+    document.getElementById('backupStatus').style.color = '#28a745';
+    toast('💾 Backup exportado!', 'success');
+}
+
+async function importarBackup(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+        
+        if (!data.propostas || !data.receitas) {
+            throw new Error('Arquivo inválido');
+        }
+        
+        if (!confirm(`Restaurar backup de ${formatDate(data.dataExportacao)}? Isso irá substituir todos os dados atuais.`)) {
+            return;
+        }
+        
+        document.getElementById('backupStatus').innerHTML = '⏳ Restaurando backup...';
+        document.getElementById('backupStatus').style.color = '#ffc107';
+        
+        // Limpar dados existentes
+        const collections = ['propostas', 'receitas', 'despesas', 'pessoas', 'beneficiarios', 'precos', 'configuracoes'];
+        for (const col of collections) {
+            const snapshot = await db.collection(col).get();
+            for (const doc of snapshot.docs) {
+                await db.collection(col).doc(doc.id).delete();
+            }
+        }
+        
+        // Importar novos dados
+        for (const col of collections) {
+            if (data[col]) {
+                for (const item of data[col]) {
+                    const { id, ...rest } = item;
+                    await db.collection(col).add(rest);
+                }
+            }
+        }
+        
+        document.getElementById('backupStatus').innerHTML = '✅ Backup restaurado com sucesso! Recarregando...';
+        document.getElementById('backupStatus').style.color = '#28a745';
+        
+        toast('✅ Backup restaurado! Recarregando dados...', 'success');
+        
+        // Recarregar dados
+        dadosCarregados = false;
+        allData = {
+            propostas: [],
+            receitas: [],
+            despesas: [],
+            precos: [],
+            pessoas: [],
+            beneficiarios: [],
+            configuracoes: []
+        };
+        await carregarDados();
+        
+    } catch (error) {
+        console.error('Erro ao importar backup:', error);
+        document.getElementById('backupStatus').innerHTML = '❌ Erro ao restaurar backup: ' + error.message;
+        document.getElementById('backupStatus').style.color = '#dc3545';
+        toast('❌ Erro ao restaurar backup', 'error');
+    }
+    
+    event.target.value = '';
+}
+
+// ============================================================
 // CONFIGURAÇÕES
 // ============================================================
 function carregarConfiguracoes() {
@@ -4285,17 +4542,35 @@ async function salvarConfiguracoes() {
 // ============================================================
 // LIMPAR DADOS
 // ============================================================
-function limparDados() {
+async function limparDados() {
     if (!confirm('⚠️ Isso irá apagar TODOS os dados do Firestore! Confirmar?')) return;
     if (!confirm('Confirma novamente?')) return;
-    const collections = ['propostas', 'receitas', 'despesas', 'pessoas', 'beneficiarios'];
-    collections.forEach(async (col) => {
+    
+    document.getElementById('backupStatus').innerHTML = '⏳ Removendo dados...';
+    document.getElementById('backupStatus').style.color = '#ffc107';
+    
+    const collections = ['propostas', 'receitas', 'despesas', 'pessoas', 'beneficiarios', 'precos'];
+    for (const col of collections) {
         const snapshot = await db.collection(col).get();
-        snapshot.forEach(async (doc) => {
+        for (const doc of snapshot.docs) {
             await db.collection(col).doc(doc.id).delete();
-        });
-    });
-    toast('Dados removidos do Firestore!');
+        }
+    }
+    
+    dadosCarregados = false;
+    allData = {
+        propostas: [],
+        receitas: [],
+        despesas: [],
+        precos: [],
+        pessoas: [],
+        beneficiarios: [],
+        configuracoes: []
+    };
+    
+    document.getElementById('backupStatus').innerHTML = '✅ Dados removidos! Recarregando...';
+    document.getElementById('backupStatus').style.color = '#28a745';
+    toast('Dados removidos do Firestore!', 'info');
     setTimeout(() => location.reload(), 2000);
 }
 
