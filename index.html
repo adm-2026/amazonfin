@@ -336,7 +336,6 @@
         .servico-item .valor { font-weight: 600; color: var(--primary); min-width: 100px; text-align: right; }
         .servico-item .categoria { font-size: 0.7rem; color: #6c757d; min-width: 80px; }
         
-        /* TABELA DE RECEITAS - ALTURA INTEGRAL */
         .table-receitas-wrapper {
             height: 65vh;
             min-height: 400px;
@@ -347,21 +346,6 @@
         .table-receitas-wrapper table { margin-bottom: 0; }
         .table-receitas-wrapper thead { position: sticky; top: 0; z-index: 20; }
         .table-receitas-wrapper thead th { background: #f8f9fa; }
-        
-        /* SKELETON LOADING */
-        .skeleton {
-            animation: pulse 1.5s ease-in-out infinite;
-            background: #e9ecef;
-            border-radius: 4px;
-        }
-        @keyframes pulse {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
-        }
-        .skeleton-text { height: 12px; margin: 4px 0; }
-        .skeleton-title { height: 20px; width: 60%; }
-        .skeleton-card { height: 60px; border-radius: 8px; }
         
         .table-footer {
             display: flex;
@@ -523,48 +507,6 @@
         .totais-receitas .label-vencido { color: #ffc107; }
         .totais-receitas .label-geral { color: var(--primary); }
         
-        .assinatura {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            margin-top: 30px;
-            gap: 40px;
-        }
-        .assinatura .bloco {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            text-align: center;
-            min-height: 120px;
-        }
-        .assinatura .line {
-            width: 100%;
-            max-width: 220px;
-            border-top: 1px solid #000;
-            margin: 8px auto;
-            flex-shrink: 0;
-        }
-        .assinatura .nome {
-            font-weight: bold;
-            font-size: 12px;
-            margin-top: 4px;
-            word-wrap: break-word;
-            max-width: 220px;
-            line-height: 1.3;
-        }
-        .assinatura .cargo {
-            font-size: 9px;
-            color: #6c757d;
-            margin-top: 4px;
-        }
-        .assinatura .espaco {
-            height: 40px;
-            flex-shrink: 0;
-        }
-        
-        /* CONFIG - ALTERAR SENHA */
         .config-senha-box {
             background: #f8f9fa;
             padding: 18px;
@@ -573,7 +515,6 @@
         }
         .config-senha-box .btn-primary { width: 100%; }
         
-        /* BACKUP/RESTORE */
         .backup-actions { display: flex; gap: 10px; flex-wrap: wrap; }
         .backup-actions .btn { flex: 1; min-width: 120px; }
         
@@ -592,9 +533,6 @@
 </head>
 <body>
 
-<!-- ============================================================ -->
-<!-- TELA DE LOGIN -->
-<!-- ============================================================ -->
 <div id="loginScreen">
     <div class="login-card">
         <div class="logo">
@@ -620,9 +558,6 @@
     </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- CARREGAMENTO -->
-<!-- ============================================================ -->
 <div id="loadingOverlay" class="loading-overlay" style="display:none;">
     <div>
         <div class="spinner">⏳</div>
@@ -630,11 +565,7 @@
     </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SISTEMA PRINCIPAL -->
-<!-- ============================================================ -->
 <div id="appScreen">
-    <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <span class="logo">⚓</span>
@@ -679,7 +610,6 @@
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
     <div class="main-content">
         <div class="topbar">
             <div class="d-flex align-items-center gap-3">
@@ -693,7 +623,6 @@
             </div>
         </div>
 
-        <!-- BANNER DE INSTALAÇÃO PWA -->
         <div id="installBanner" class="no-print">
             <span><i class="bi bi-phone"></i> Instale o app no seu celular para acesso rápido!</span>
             <div>
@@ -903,7 +832,6 @@
                     <div class="form-group"></div>
                 </div>
 
-                <!-- CAMPOS PERSONALIZADOS -->
                 <div style="font-weight:600;font-size:0.85rem;color:#0a3d6b;margin:15px 0 5px 0;border-bottom:1px solid #ddd;padding-bottom:3px;">
                     5. CAMPOS PERSONALIZADOS
                     <button class="btn btn-sm btn-outline-primary ms-2" onclick="adicionarCampoPersonalizado()"><i class="bi bi-plus-lg"></i> Adicionar Campo</button>
@@ -1003,7 +931,7 @@
             </div>
         </div>
 
-        <!-- PAGE: RECEITAS (TABELA INTEGRAL) -->
+        <!-- PAGE: RECEITAS -->
         <div class="page-content" id="page-receita">
             <div class="card-custom">
                 <div class="card-title">
@@ -1128,12 +1056,11 @@
             </div>
         </div>
 
-        <!-- PAGE: CONFIG (COM ALTERAR SENHA E BACKUP/RESTORE) -->
+        <!-- PAGE: CONFIG -->
         <div class="page-content" id="page-config">
             <div class="card-custom">
                 <div class="card-title"><span><i class="bi bi-gear"></i> Configurações</span></div>
                 
-                <!-- Dados da Empresa -->
                 <div style="font-weight:600;font-size:0.85rem;color:#0a3d6b;margin:15px 0 5px 0;border-bottom:1px solid #ddd;padding-bottom:3px;">DADOS DA EMPRESA</div>
                 <div class="form-row">
                     <div class="form-group"><label>Dados da Empresa</label>
@@ -1160,7 +1087,6 @@
                     </div>
                 </div>
 
-                <!-- ALTERAR SENHA -->
                 <div style="font-weight:600;font-size:0.85rem;color:#0a3d6b;margin:20px 0 5px 0;border-bottom:1px solid #ddd;padding-bottom:3px;">🔑 ALTERAR SENHA</div>
                 <div class="config-senha-box">
                     <div class="form-row">
@@ -1180,7 +1106,6 @@
                     <div id="senhaStatus" style="margin-top:8px;font-size:0.8rem;"></div>
                 </div>
 
-                <!-- BACKUP / RESTORE -->
                 <div style="font-weight:600;font-size:0.85rem;color:#0a3d6b;margin:20px 0 5px 0;border-bottom:1px solid #ddd;padding-bottom:3px;">💾 BACKUP / RESTORE</div>
                 <div class="backup-actions">
                     <button class="btn btn-success" onclick="exportarBackup()"><i class="bi bi-download"></i> Exportar Backup</button>
@@ -1195,11 +1120,7 @@
     </div>
 </div>
 
-<!-- ============================================================ -->
 <!-- MODAIS -->
-<!-- ============================================================ -->
-
-<!-- MODAL SERVIÇO -->
 <div class="modal fade" id="modalServico" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -1224,7 +1145,6 @@
     </div>
 </div>
 
-<!-- MODAL HISTÓRICO PREÇOS -->
 <div class="modal fade" id="modalHistorico" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -1236,7 +1156,6 @@
     </div>
 </div>
 
-<!-- MODAL RECEITA -->
 <div class="modal fade" id="modalReceita" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -1295,7 +1214,6 @@
     </div>
 </div>
 
-<!-- MODAL DESPESA -->
 <div class="modal fade" id="modalDespesa" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -1353,7 +1271,6 @@
     </div>
 </div>
 
-<!-- MODAL NOVO BENEFICIÁRIO -->
 <div class="modal fade" id="modalNovoBeneficiario" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -1378,7 +1295,6 @@
     </div>
 </div>
 
-<!-- MODAL GERENCIAR BENEFICIÁRIOS -->
 <div class="modal fade" id="modalGerenciarBeneficiarios" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -1405,7 +1321,6 @@
     </div>
 </div>
 
-<!-- MODAL PESSOA -->
 <div class="modal fade" id="modalPessoa" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -1432,7 +1347,6 @@
     </div>
 </div>
 
-<!-- MODAL VISUALIZAR PROPOSTA -->
 <div class="modal fade" id="modalVisualizar" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -1446,7 +1360,6 @@
     </div>
 </div>
 
-<!-- MODAL EDIÇÃO EM LOTE -->
 <div class="modal fade" id="modalEdicaoLote" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -1473,14 +1386,8 @@
     </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- TOAST -->
-<!-- ============================================================ -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- ============================================================ -->
-<!-- SCRIPTS -->
-<!-- ============================================================ -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
@@ -1515,10 +1422,17 @@ let allData = {
     configuracoes: []
 };
 let ultimoNumeroProposta = 0;
-let camposPersonalizados = [];
-let loteEditId = null;
-let loteDados = null;
 let dadosCarregados = false;
+let propostasPaginaAtual = 1;
+const PROPOSTAS_POR_PAGINA = 25;
+let receitasPaginaAtual = 1;
+const RECEITAS_POR_PAGINA = 25;
+let despesasPaginaAtual = 1;
+const DESPESAS_POR_PAGINA = 25;
+let loteEditId = null;
+let fluxoCaixaChartInstance = null;
+let relStatusChartInstance = null;
+let relMesChartInstance = null;
 
 // ============================================================
 // FUNÇÕES DE AUTENTICAÇÃO
@@ -1554,7 +1468,6 @@ function entrarNoSistema() {
     document.getElementById('userName').textContent = currentUser ? currentUser.email : 'Usuário';
     carregarDados();
     verificarPWA();
-    verificarTarefasAgendadas();
 }
 
 function logout() {
@@ -1568,43 +1481,7 @@ function logout() {
 }
 
 // ============================================================
-// VERIFICAR TAREFAS AGENDADAS
-// ============================================================
-function verificarTarefasAgendadas() {
-    // Verificar receitas vencendo em 5 dias
-    const hoje = new Date();
-    const receitas = allData.receitas || [];
-    const vencendo = receitas.filter(r => {
-        if (!r.data || r.status === 'Paga') return false;
-        const dt = new Date(r.data);
-        const diff = Math.ceil((dt - hoje) / (1000 * 60 * 60 * 24));
-        return diff >= 0 && diff <= 5;
-    });
-    
-    if (vencendo.length > 0) {
-        setTimeout(() => {
-            toast(`⚠️ ${vencendo.length} receita(s) vencem nos próximos 5 dias!`, 'warning');
-        }, 2000);
-    }
-    
-    // Verificar propostas pendentes há mais de 15 dias
-    const propostas = allData.propostas || [];
-    const pendentes = propostas.filter(p => {
-        if (!p.criadoEm || p.status !== 'Pendente') return false;
-        const dt = new Date(p.criadoEm);
-        const diff = Math.ceil((hoje - dt) / (1000 * 60 * 60 * 24));
-        return diff > 15;
-    });
-    
-    if (pendentes.length > 0) {
-        setTimeout(() => {
-            toast(`📄 ${pendentes.length} proposta(s) pendentes há mais de 15 dias!`, 'info');
-        }, 3000);
-    }
-}
-
-// ============================================================
-// CARREGAR DADOS DO FIRESTORE (COM LAZY LOADING)
+// CARREGAR DADOS
 // ============================================================
 async function carregarDados() {
     if (dadosCarregados) return;
@@ -1614,17 +1491,12 @@ async function carregarDados() {
     
     try {
         const collections = ['propostas', 'receitas', 'despesas', 'precos', 'pessoas', 'beneficiarios', 'configuracoes'];
-        let total = collections.length;
-        let loaded = 0;
-        
         for (const nome of collections) {
-            document.getElementById('loadingText').textContent = `Carregando ${nome}... (${loaded+1}/${total})`;
             const snapshot = await db.collection(nome).get();
             allData[nome] = [];
             snapshot.forEach(doc => {
                 allData[nome].push({ id: doc.id, ...doc.data() });
             });
-            loaded++;
         }
         
         if (allData.precos.length === 0) {
@@ -1673,8 +1545,6 @@ async function carregarDados() {
         calcularUltimoNumero();
         dadosCarregados = true;
         
-        document.getElementById('loadingText').textContent = 'Renderizando...';
-        
         renderTabelaPrecos();
         carregarServicosCadastro();
         atualizarNumeroProposta();
@@ -1688,48 +1558,12 @@ async function carregarDados() {
         gerarRelatorio();
         atualizarAlertas();
         
-        await carregarExemplosReceitas();
-        
         toast('✅ Dados carregados do Firebase!', 'success');
     } catch (error) {
         console.error('Erro ao carregar dados:', error);
         toast('❌ Erro ao carregar dados: ' + error.message, 'error');
     }
     mostrarLoading(false);
-}
-
-async function carregarExemplosReceitas() {
-    const receitas = allData.receitas || [];
-    if (receitas.length > 0) return;
-    
-    const exemplos = [
-        { orcamento: 'BJ AM 002/2026', cliente: 'BJ AM', valor: 1100, parcelas: 1, data: '2026-05-27' },
-        { orcamento: 'EDU IV AM 003/2026', cliente: 'EDU IV AM', valor: 5000, parcelas: 3, data: '2026-06-02' },
-        { orcamento: 'ESTRELA AM 019/2026', cliente: 'ESTRELA AM', valor: 5000, parcelas: 2, data: '2026-06-30' },
-        { orcamento: 'MILENA X AM 011/2026', cliente: 'MILENA X AM', valor: 5500, parcelas: 3, data: '2026-06-29' },
-        { orcamento: 'RIO DOCE VII - PRINCIPE AM 018/2026', cliente: 'RIO DOCE VII', valor: 10500, parcelas: 3, data: '2026-07-30' },
-        { orcamento: 'COMPETRO IV AM 008/2026', cliente: 'COMPETRO IV AM', valor: 4150, parcelas: 1, data: '2026-06-25' },
-        { orcamento: 'POSTO SKMAR AM 0021/2026', cliente: 'POSTO SKMAR AM', valor: 5000, parcelas: 3, data: '2026-07-06' }
-    ];
-    
-    for (const ex of exemplos) {
-        const valorParcela = ex.valor / ex.parcelas;
-        const dataBase = new Date(ex.data);
-        for (let i = 0; i < ex.parcelas; i++) {
-            const dataVencimento = new Date(dataBase);
-            dataVencimento.setMonth(dataVencimento.getMonth() + i);
-            await addDocument('receitas', {
-                data: dataVencimento.toISOString().split('T')[0],
-                orcamento: ex.orcamento,
-                descricao: `${ex.orcamento} - Parcela ${i+1}/${ex.parcelas}`,
-                cliente: ex.cliente,
-                valor: valorParcela,
-                formaRecebimento: 'PIX',
-                status: i === 0 ? 'Paga' : 'Pendente',
-                parcela: `${i+1}/${ex.parcelas}`
-            });
-        }
-    }
 }
 
 function calcularUltimoNumero() {
@@ -1768,7 +1602,7 @@ function mostrarLoading(show) {
 }
 
 // ============================================================
-// FUNÇÕES DE CRUD (Firestore)
+// FUNÇÕES DE CRUD
 // ============================================================
 async function addDocument(collection, data) {
     try {
@@ -1896,16 +1730,11 @@ async function validarNumeroProposta() {
     }
     
     try {
-        const snapshot = await db.collection('propostas')
-            .where('numero', '==', valor)
-            .get();
-        
+        const snapshot = await db.collection('propostas').where('numero', '==', valor).get();
         const editId = document.getElementById('editPropostaId').value;
         let encontrado = false;
         snapshot.forEach(doc => {
-            if (doc.id !== editId) {
-                encontrado = true;
-            }
+            if (doc.id !== editId) encontrado = true;
         });
         
         if (encontrado) {
@@ -1922,16 +1751,6 @@ async function validarNumeroProposta() {
         statusEl.style.color = '#28a745';
         el.classList.remove('invalido');
         el.classList.add('valido');
-        
-        const parts = valor.split('-');
-        if (parts.length >= 3) {
-            const numPart = parts[2].split('/')[0];
-            const num = parseInt(numPart);
-            if (!isNaN(num) && num > ultimoNumeroProposta) {
-                ultimoNumeroProposta = num;
-            }
-        }
-        
         return true;
     } catch (error) {
         console.error('Erro ao validar número:', error);
@@ -1941,9 +1760,6 @@ async function validarNumeroProposta() {
     }
 }
 
-// ============================================================
-// GERAR NÚMERO DA PROPOSTA
-// ============================================================
 function gerarNumeroProposta() {
     const ano = new Date().getFullYear();
     const proximo = ultimoNumeroProposta + 1;
@@ -2380,7 +2196,6 @@ async function salvarProposta() {
         numParcelas: numParcelas,
         valorParcela: valorParcela,
         status: 'Pendente',
-        dataPagamento: null,
         criadoEm: new Date().toISOString()
     };
     
@@ -2599,7 +2414,7 @@ function gerarPDFProposta(id) {
 }
 
 // ============================================================
-// IMPRIMIR PROPOSTA (PDF) - ASSINATURA CORRIGIDA
+// IMPRIMIR PROPOSTA (PDF) - RELATÓRIO IDÊNTICO AO MODELO
 // ============================================================
 function imprimirProposta(p) {
     const LOGO = "https://i.imgur.com/W4wgZeD.jpeg";
@@ -2617,30 +2432,15 @@ function imprimirProposta(p) {
     p.servicos.forEach((s, i) => {
         const valor = s.valor || 0;
         totalServicos += valor;
+        const valorStr = valor > 0 ? formatMoeda(valor) : '-';
         servicosHtml += `
             <tr>
-                <td style="width:30px;text-align:center;border:1px solid #000;padding:2px 4px;">${i + 1}</td>
-                <td style="border:1px solid #000;padding:2px 4px;">${s.nome}</td>
-                <td style="text-align:right;border:1px solid #000;padding:2px 4px;">${formatMoeda(valor)}</td>
+                <td style="width:25px;text-align:center;padding:1px 4px;">${i + 1}</td>
+                <td style="padding:1px 4px;">${s.nome}</td>
+                <td style="text-align:right;padding:1px 4px;">${valorStr}</td>
             </tr>
         `;
     });
-    
-    let camposHtml = '';
-    if (p.camposPersonalizados && p.camposPersonalizados.length > 0) {
-        camposHtml = `
-            <tr><td colspan="3" style="border:1px solid #000;padding:4px 5px;font-weight:bold;background:#f0f0f0;">CAMPOS ADICIONAIS</td></tr>
-        `;
-        p.camposPersonalizados.forEach(c => {
-            camposHtml += `
-                <tr>
-                    <td style="border:1px solid #000;padding:2px 4px;"></td>
-                    <td style="border:1px solid #000;padding:2px 4px;">${c.nome}</td>
-                    <td style="border:1px solid #000;padding:2px 4px;text-align:right;">${c.valor}</td>
-                </tr>
-            `;
-        });
-    }
     
     let parcelasHtml = '';
     const numParcelas = p.numParcelas || 1;
@@ -2648,8 +2448,9 @@ function imprimirProposta(p) {
     for (let i = 1; i <= numParcelas; i++) {
         parcelasHtml += `
             <tr>
-                <td style="text-align:center;border:1px solid #000;padding:2px 8px;">${i}</td>
-                <td style="text-align:right;border:1px solid #000;padding:2px 8px;">${formatMoeda(valorParcela)}</td>
+                <td style="padding:1px 8px;width:60px;">${i}/${numParcelas}</td>
+                <td style="padding:1px 8px;width:30px;text-align:center;">${i}</td>
+                <td style="padding:1px 8px;text-align:right;">${formatMoeda(valorParcela)}</td>
             </tr>
         `;
     }
@@ -2660,161 +2461,124 @@ function imprimirProposta(p) {
         <meta charset="UTF-8">
         <title>${p.numero}</title>
         <style>
-            @page { margin: 12px; }
-            body { font-family: 'Courier New', Courier, monospace; font-size: 12px; margin: 0; padding: 12px; background: #fff; }
-            .container { max-width: 210mm; margin: 0 auto; }
-            .header { text-align: center; border-bottom: 2px solid #0a3d6b; padding-bottom: 6px; margin-bottom: 6px; }
-            .logo { max-height: 40px; }
-            .title { font-size: 14px; font-weight: bold; margin-top: 2px; }
-            .row { display: flex; justify-content: space-between; margin: 1px 0; }
-            .label { font-weight: bold; }
-            .section { font-weight: bold; font-size: 12px; margin: 6px 0 3px 0; border-bottom: 1px solid #000; padding-bottom: 1px; }
-            table { width: 100%; border-collapse: collapse; margin: 2px 0; }
-            td { padding: 1px 3px; vertical-align: top; }
-            .servicos-table { border-collapse: collapse; font-size: 9.5px; }
-            .servicos-table td, .servicos-table th { border: 1px solid #000; padding: 2px 5px; }
-            .servicos-table th { background: #f0f0f0; font-weight: bold; text-align: center; }
-            .total-row td { font-weight: bold; border-top: 2px solid #000; }
-            .desconto-row td { border-top: 1px solid #ccc; }
-            .parcelas-table { border-collapse: collapse; margin: 3px 0; font-size: 9.5px; }
-            .parcelas-table td, .parcelas-table th { border: 1px solid #000; padding: 2px 15px; }
-            .parcelas-table th { background: #f0f0f0; font-weight: bold; }
-            
-            .assinatura {
-                display: flex;
-                justify-content: space-between;
-                align-items: stretch;
-                margin-top: 30px;
-                gap: 40px;
-            }
-            .assinatura .bloco {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
-                text-align: center;
-                min-height: 120px;
-            }
-            .assinatura .line {
-                width: 100%;
-                max-width: 220px;
-                border-top: 1px solid #000;
-                margin: 8px auto;
-                flex-shrink: 0;
-            }
-            .assinatura .nome {
-                font-weight: bold;
-                font-size: 12px;
-                margin-top: 4px;
-                word-wrap: break-word;
-                max-width: 220px;
-                line-height: 1.3;
-            }
-            .assinatura .cargo {
-                font-size: 9px;
-                color: #6c757d;
-                margin-top: 4px;
-            }
-            .assinatura .espaco {
-                height: 40px;
-                flex-shrink: 0;
-            }
-            
-            .footer { text-align: center; font-size: 8px; color: #6c757d; margin-top: 12px; border-top: 1px solid #ddd; padding-top: 4px; }
-            .texto-clausula { margin: 3px 0; text-align: justify; font-size: 12px; }
-            .texto-clausula-num { margin: 3px 0; text-align: justify; font-size: 12px; padding-left: 15px; }
+            @page { margin: 12mm 15mm 12mm 15mm; size: A4; }
+            body { font-family: 'Courier New', Courier, monospace; font-size: 9pt; line-height: 1.4; color: #000; background: #fff; margin: 0; padding: 0; }
+            .container { max-width: 100%; padding: 0; }
+            .header { margin-bottom: 8px; }
+            .header .logo { text-align: center; margin-bottom: 6px; }
+            .header .logo img { max-height: 40px; }
+            .header .dados { font-size: 9pt; }
+            .header .dados .row { display: flex; justify-content: space-between; margin: 1px 0; }
+            .header .dados .label { font-weight: bold; }
+            .secao { margin-top: 8px; }
+            .secao-titulo { font-weight: bold; font-size: 9pt; border-bottom: 1px solid #000; padding-bottom: 1px; margin-bottom: 3px; }
+            .secao-sub { margin: 2px 0; padding-left: 8px; }
+            .servicos-table { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 3px 0; }
+            .servicos-table td { padding: 1px 4px; vertical-align: top; }
+            .servicos-table .total-row td { font-weight: bold; border-top: 1px solid #000; padding-top: 2px; }
+            .servicos-table .desconto-row td { border-top: 1px solid #ccc; }
+            .parcelas-table { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 3px 0; }
+            .parcelas-table td { padding: 1px 8px; vertical-align: top; }
+            .texto-clausula { margin: 2px 0; text-align: justify; padding-left: 8px; }
+            .texto-clausula-num { margin: 2px 0; text-align: justify; padding-left: 15px; }
+            .assinatura { display: flex; justify-content: space-between; margin-top: 30px; gap: 30px; }
+            .assinatura .bloco { flex: 1; text-align: center; }
+            .assinatura .line { width: 80%; max-width: 200px; border-top: 1px solid #000; margin: 20px auto 4px auto; }
+            .assinatura .nome { font-weight: bold; font-size: 9pt; }
+            .assinatura .cargo { font-size: 7pt; color: #6c757d; }
+            .rodape { text-align: center; font-size: 6.5pt; color: #6c757d; margin-top: 15px; border-top: 1px solid #ddd; padding-top: 4px; }
+            @media print { body { margin: 0; padding: 0; } .container { padding: 0; } }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="header">
-                <img src="${LOGO}" alt="AMAZON NAVAL" class="logo">
-                <div class="title">PROPOSTA DE SERVIÇO</div>
-            </div>
-            
-            <div class="row">
-                <div class="label">${config.empresa}</div>
-                <div style="font-weight:bold;">${p.numero}</div>
-            </div>
-            
-            <div style="margin:1px 0;"><span class="label">NOME DA EMBARCAÇÃO</span><br><span>${p.nome || 'N/A'}</span></div>
-            
-            <div class="row"><div><span class="label">CONTRATADA:</span> ${config.empresa}</div></div>
-            <div class="row">
-                <div><span class="label">TIPO DE EMBARCAÇÃO:</span> ${p.tipo || 'N/A'}</div>
-                <div><span class="label">DATA:</span> ${formatDate(p.data)}</div>
-            </div>
-            <div class="row"><div><span class="label">CONTRATANTE:</span> ${p.contratante || 'N/A'}</div></div>
-            <div class="row"><div><span class="label">CNPJ:</span> ${p.cnpj || 'N/A'}</div></div>
-            
-            <div class="section">1.0 - OBJETO DA PROPOSTA E SERVIÇOS</div>
-            <div class="texto-clausula-num">1.1 NOME DA EMBARCAÇÃO: ${p.nome || 'N/A'}</div>
-            <div class="texto-clausula-num">1.2 COMPRIMENTO: ${(p.comprimento || 0).toFixed(3)} m</div>
-            <div class="texto-clausula-num">1.3 BOCA: ${(p.boca || 0).toFixed(3)} m</div>
-            <div class="texto-clausula-num">1.4 PONTAL: ${(p.pontal || 0).toFixed(3)} m</div>
-            
-            <div class="section">2.0 - DESCRIÇÃO DOS SERVIÇOS</div>
-            <div class="texto-clausula-num">2.1 SERVIÇOS:</div>
-            <table class="servicos-table">
-                <tr><th>Nº</th><th>SERVIÇO</th><th>VALOR</th></tr>
-                ${servicosHtml}
-                ${camposHtml}
-                <tr class="desconto-row"><td></td><td style="font-weight:bold;">TOTAL DOS SERVIÇOS</td><td style="text-align:right;font-weight:bold;">${formatMoeda(totalServicos)}</td></tr>
-                <tr><td></td><td style="font-weight:bold;">DESCONTO</td><td style="text-align:right;font-weight:bold;">${formatMoeda(p.desconto || 0)}</td></tr>
-                <tr class="total-row"><td></td><td style="font-weight:bold;">TOTAL GERAL</td><td style="text-align:right;font-weight:bold;color:#000;">${formatMoeda(p.totalGeral)}</td></tr>
-            </table>
-            
-            <div class="section">3.0 - DESPESAS EVENTUAIS</div>
-            <div class="texto-clausula-num">3.1 Todas as despesas com passagens (aéreas, terrestres ou fluviais), combustível, alimentação, hospedagem, entre outras, fora da cidade de BELÉM/PA deverão ser arcadas pelo ACEITANTE.</div>
-            <div class="texto-clausula-num">3.2 Todas as despesas de deslocamento (uber ou táxi) e alimentação dentro da cidade de BELÉM/PA deverão ser pagas pelo ACEITANTE.</div>
-            <div class="texto-clausula-num">3.3 Havendo necessidade de realização de vistorias no Sábado ou Domingo ou Feriado, o ACEITANTE deverá arcar com o valor de R$300,00 (trezentos reais) a diária, a ser pago de forma integral via pix ou transferência bancária, no dia da realização da vistoria.</div>
-            
-            <div class="section">4.0 - FORMA DE PAGAMENTO</div>
-            <div class="texto-clausula-num">4.1 O pagamento, quando acordado a ser realizado por transferência ou depósito, deverá ser efetuado na conta corrente do banco Inter 077, na agência 0001, ${config.conta}, ou PIX ${config.pix}</div>
-            
-            <div class="texto-clausula-num">4.2 PARCELAS:</div>
-            <table class="parcelas-table">
-                <tr><th>PARCELAS</th><th>VALOR</th></tr>
-                ${parcelasHtml}
-            </table>
-            
-            <div class="texto-clausula-num">4.3 CONTA: ${config.conta}</div>
-            <div class="texto-clausula-num">4.4 PIX: ${config.pix}</div>
-            
-            <div class="section">5.0 - PRAZO DE VALIDADE DA PROPOSTA DE SERVIÇOS</div>
-            <div class="texto-clausula-num">5.1 O prazo de validade desta proposta de serviços é de ${config.prazo} (trinta) dias contados a partir da sua data de emissão, sendo que, posteriormente a esse prazo, o PROPONENTE não se obrigará a manter as condições e os preços por ventura compactuados.</div>
-            
-            <div class="section">6.0 - SERVIÇOS A REALIZAR</div>
-            <div class="texto-clausula-num">6.1 O agendamento das vistorias ficará condicionado à apresentação prévia do projeto da embarcação, em meio físico ou digital, devidamente acompanhado de todas as informações e documentos necessários para análise técnica.</div>
-            <div class="texto-clausula-num">6.2 Os agendamentos para realização dos serviços deverão ser feitos com a devida antecedência, sendo que as orientações dadas pelo PROPONENTE deverão ser seguidas pelo ACEITANTE.</div>
-            <div class="texto-clausula-num">6.3 No caso do ACEITANTE não cumprir os prazos dos certificados mencionados no item acima, será realizada uma nova PROPOSTA DE SERVIÇOS.</div>
-            <div class="texto-clausula-num">6.4 No caso de excepcional desistência na conclusão dos serviços por parte do ACEITANTE, este se compromete a arcar com as despesas já realizadas e não pagas, bem como o valor residual acordado e não pago desta proposta de serviços.</div>
-            
-            <div class="section">7.0 - DO FORO</div>
-            <div class="texto-clausula-num">7.1 Fica eleito o foro da comarca de ${config.foro} para nele serem dirimidas as dúvidas porventura surgidas no fiel cumprimento deste instrumento.</div>
-            
-            <div class="section">8.0 - ACEITE FORMAL</div>
-            <div class="assinatura">
-                <div class="bloco">
-                    <div class="espaco"></div>
-                    <div class="line"></div>
-                    <div class="nome">${p.contratante || '_________________________'}</div>
-                    <div class="cargo">(Assinatura do Contratante)</div>
-                </div>
-                <div class="bloco">
-                    <div class="espaco"></div>
-                    <div class="line"></div>
-                    <div class="nome">${config.empresa}</div>
-                    <div class="cargo">(Assinatura)</div>
+                <div class="logo"><img src="${LOGO}" alt="AMAZON NAVAL"></div>
+                <div class="dados">
+                    <div class="row"><span><span class="label">CONTRATADA:</span> ${config.empresa}</span></div>
+                    <div class="row">
+                        <span><span class="label">TIPO DE EMBARCAÇÃO:</span> ${p.tipo || 'N/A'}</span>
+                        <span><span class="label">DATA:</span> ${formatDate(p.data)}</span>
+                    </div>
+                    <div class="row">
+                        <span><span class="label">CONTRATANTE:</span> ${p.contratante || 'N/A'}</span>
+                        <span><span class="label">CNPJ:</span> ${p.cnpj || 'N/A'}</span>
+                    </div>
                 </div>
             </div>
             
-            <div class="footer">Documento gerado pelo Sistema AMAZON NAVAL - ${new Date().toLocaleDateString('pt-BR')}</div>
+            <div class="secao">
+                <div class="secao-titulo">1.0 - OBJETO DA PROPOSTA E SERVIÇOS</div>
+                <div class="secao-sub"><span class="label">NOME DA EMBARCAÇÃO:</span> ${p.nome || 'N/A'}</div>
+                <div class="secao-sub"><span class="label">COMPRIMENTO:</span> ${(p.comprimento || 0).toFixed(3).replace('.', ',')} m</div>
+                <div class="secao-sub"><span class="label">BOCA:</span> ${(p.boca || 0).toFixed(3).replace('.', ',')} m</div>
+                <div class="secao-sub"><span class="label">PONTAL:</span> ${(p.pontal || 0).toFixed(3).replace('.', ',')} m</div>
+            </div>
+            
+            <div class="secao">
+                <div class="secao-titulo">2.0 - DESCRIÇÃO DOS SERVIÇOS</div>
+                <div class="secao-sub"><span class="label">SERVIÇOS:</span></div>
+                <table class="servicos-table">
+                    ${servicosHtml}
+                    <tr class="desconto-row"><td></td><td style="font-weight:bold;">TOTAL DOS SERVIÇOS</td><td style="text-align:right;font-weight:bold;">${formatMoeda(totalServicos)}</td></tr>
+                    <tr><td></td><td style="font-weight:bold;">DESCONTO</td><td style="text-align:right;font-weight:bold;">${formatMoeda(p.desconto || 0)}</td></tr>
+                    <tr class="total-row"><td></td><td style="font-weight:bold;">TOTAL GERAL</td><td style="text-align:right;font-weight:bold;">${formatMoeda(p.totalGeral)}</td></tr>
+                </table>
+            </div>
+            
+            <div class="secao">
+                <div class="secao-titulo">3.0 - DESPESAS EVENTUAIS</div>
+                <div class="texto-clausula-num">3.1 Todas as despesas com passagens (aéreas, terrestres ou fluviais), combustível, alimentação, hospedagem, entre outras, fora da cidade de ${config.foro} deverão ser arcadas pelo ACEITANTE.</div>
+                <div class="texto-clausula-num">3.2 Todas as despesas de deslocamento (uber ou táxi) e alimentação dentro da cidade de ${config.foro} deverão ser pagas pelo ACEITANTE.</div>
+                <div class="texto-clausula-num">3.3 Havendo necessidade de realização de vistorias no Sábado ou Domingo ou Feriado, o ACEITANTE deverá arcar com o valor de R$300,00 (trezentos reais) a diária, a ser pago de forma integral via pix ou transferência bancária, no dia da realização da vistoria.</div>
+            </div>
+            
+            <div class="secao">
+                <div class="secao-titulo">4.0 - FORMA DE PAGAMENTO</div>
+                <div class="texto-clausula">O pagamento, quando acordado a ser realizado por transferência ou depósito, deverá ser efetuado na conta corrente do banco Inter 077, na agência 0001, ${config.conta}, ou PIX ${config.pix}</div>
+                <div style="margin-top:3px;"><span class="label">PARCELAS  VALOR</span></div>
+                <table class="parcelas-table">${parcelasHtml}</table>
+                <div><span class="label">CONTA:</span> ${config.conta}</div>
+                <div><span class="label">PIX:</span> ${config.pix}</div>
+            </div>
+            
+            <div class="secao">
+                <div class="secao-titulo">5.0 - PRAZO DE VALIDADE DA PROPOSTA DE SERVIÇOS</div>
+                <div class="texto-clausula">O prazo de validade desta proposta de serviços é de ${config.prazo} (trinta) dias contados a partir da sua data de emissão, sendo que, posteriormente a esse prazo, o PROPONENTE não se obrigará a manter as condições e os preços por ventura compactuados.</div>
+            </div>
+            
+            <div class="secao">
+                <div class="secao-titulo">6.0 - SERVIÇOS A REALIZAR</div>
+                <div class="texto-clausula-num">6.1 O agendamento das vistorias ficará condicionado à apresentação prévia do projeto da embarcação, em meio físico ou digital, devidamente acompanhado de todas as informações e documentos necessários para análise técnica.</div>
+                <div class="texto-clausula-num">6.2 Os agendamentos para realização dos serviços deverão ser feitos com a devida antecedência, sendo que as orientações dadas pelo PROPONENTE deverão ser seguidas pelo ACEITANTE.</div>
+                <div class="texto-clausula-num">6.3 No caso do ACEITANTE não cumprir os prazos dos certificados mencionados no item acima, será realizada uma nova PROPOSTA DE SERVIÇOS.</div>
+                <div class="texto-clausula-num">6.4 No caso de excepcional desistência na conclusão dos serviços por parte do ACEITANTE, este se compromete a arcar com as despesas já realizadas e não pagas, bem como o valor residual acordado e não pago desta proposta de serviços.</div>
+            </div>
+            
+            <div class="secao">
+                <div class="secao-titulo">7.0 - DO FORO</div>
+                <div class="texto-clausula">Fica eleito o foro da comarca de ${config.foro} para nele serem dirimidas as dúvidas porventura surgidas no fiel cumprimento deste instrumento.</div>
+            </div>
+            
+            <div class="secao">
+                <div class="secao-titulo">8.0 - ACEITE FORMAL</div>
+                <div class="assinatura">
+                    <div class="bloco">
+                        <div class="line"></div>
+                        <div class="nome">${p.contratante || '_________________________'}</div>
+                        <div class="cargo">(Assinatura do Contratante)</div>
+                    </div>
+                    <div class="bloco">
+                        <div class="line"></div>
+                        <div class="nome">${config.empresa}</div>
+                        <div class="cargo">(Assinatura)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rodape">Documento gerado pelo Sistema AMAZON NAVAL - ${new Date().toLocaleDateString('pt-BR')}</div>
         </div>
-        <script>
-            setTimeout(() => window.print(), 500);
-        <\/script>
+        <script>setTimeout(() => window.print(), 500);<\/script>
     </body>
     </html>`;
     
@@ -2832,18 +2596,11 @@ function gerarPDFTodasPropostas() {
     
     let html = `
     <html><head><meta charset="UTF-8"><title>Todas as Propostas</title>
-    <style>
-        body{font-family:'Courier New',monospace;font-size:12px;padding:15px;}
-        table{width:100%;border-collapse:collapse;}
-        th,td{border:1px solid #000;padding:3px 6px;text-align:left;}
-        th{background:#0a3d6b;color:#fff;}
-        h2{color:#0a3d6b;}
-    </style>
+    <style>body{font-family:'Courier New',monospace;font-size:12px;padding:15px;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #000;padding:3px 6px;text-align:left;}th{background:#0a3d6b;color:#fff;}h2{color:#0a3d6b;}</style>
     </head><body>
     <h2>RELATÓRIO DE PROPOSTAS</h2>
     <p>Total: ${propostas.length}</p>
-    <table>
-        <tr><th>Data Criação</th><th>Nº</th><th>Embarcação</th><th>Contratante</th><th>Valor</th><th>Status</th></tr>`;
+    <table><tr><th>Data Criação</th><th>Nº</th><th>Embarcação</th><th>Contratante</th><th>Valor</th><th>Status</th></tr>`;
     
     propostas.sort((a,b) => new Date(b.criadoEm) - new Date(a.criadoEm)).forEach(p => {
         html += `<tr><td>${formatDate(p.criadoEm)}</td><td>${p.numero || 'N/A'}</td><td>${p.nome || 'N/A'}</td><td>${p.contratante || 'N/A'}</td><td>${formatMoeda(p.totalGeral)}</td><td>${p.status || 'Pendente'}</td></tr>`;
@@ -2865,9 +2622,7 @@ function gerarPDFReceitas() {
     if (receitas.length === 0) { toast('Nenhuma receita para gerar', 'warning'); return; }
     
     const LOGO = "https://i.imgur.com/W4wgZeD.jpeg";
-    const config = {
-        empresa: document.getElementById('configEmpresa').value || 'AMAZON NAVAL LTDA'
-    };
+    const config = { empresa: document.getElementById('configEmpresa').value || 'AMAZON NAVAL LTDA' };
     
     const totalGeral = receitas.reduce((s, r) => s + (r.valor || 0), 0);
     const totalRecebido = receitas.filter(r => r.status === 'Paga').reduce((s, r) => s + (r.valor || 0), 0);
@@ -2883,9 +2638,7 @@ function gerarPDFReceitas() {
                 if (!meses[mes]) meses[mes] = { total: 0, recebido: 0, parcelas: 0 };
                 meses[mes].total += r.valor || 0;
                 meses[mes].parcelas += 1;
-                if (r.status === 'Paga') {
-                    meses[mes].recebido += r.valor || 0;
-                }
+                if (r.status === 'Paga') meses[mes].recebido += r.valor || 0;
             }
         }
     });
@@ -2893,7 +2646,7 @@ function gerarPDFReceitas() {
     const mesesOrdenados = Object.keys(meses).sort();
     const mesesLabels = mesesOrdenados.map(m => {
         const [ano, mes] = m.split('-');
-        const mesesNome = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        const mesesNome = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
         return mesesNome[parseInt(mes) - 1] + '/' + ano;
     });
     
@@ -2906,116 +2659,57 @@ function gerarPDFReceitas() {
     let mesesHtml = '';
     mesesOrdenados.forEach((m, i) => {
         const data = meses[m];
-        mesesHtml += `
-            <tr>
-                <td>${mesesLabels[i]}</td>
-                <td style="text-align:center;">${data.parcelas}</td>
-                <td style="text-align:right;">${formatMoeda(data.total)}</td>
-                <td style="text-align:right;">${formatMoeda(data.recebido)}</td>
-            </tr>
-        `;
+        mesesHtml += `<tr><td>${mesesLabels[i]}</td><td style="text-align:center;">${data.parcelas}</td><td style="text-align:right;">${formatMoeda(data.total)}</td><td style="text-align:right;">${formatMoeda(data.recebido)}</td></tr>`;
     });
     
     let formasHtml = '';
     for (const [forma, valor] of Object.entries(formas)) {
-        formasHtml += `
-            <tr>
-                <td>${forma}</td>
-                <td style="text-align:right;">${formatMoeda(valor)}</td>
-            </tr>
-        `;
+        formasHtml += `<tr><td>${forma}</td><td style="text-align:right;">${formatMoeda(valor)}</td></tr>`;
     }
     
     const totalParcelas = receitas.length;
     const totalPropostas = [...new Set(receitas.map(r => r.orcamento).filter(Boolean))].length;
     
     const html = `
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Relatório de Receitas</title>
-        <style>
-            @page { margin: 15px; }
-            body { font-family: 'Courier New', Courier, monospace; font-size: 12px; margin: 0; padding: 15px; background: #fff; }
-            .container { max-width: 210mm; margin: 0 auto; }
-            .header { text-align: center; border-bottom: 2px solid #0a3d6b; padding-bottom: 8px; margin-bottom: 12px; }
-            .logo { max-height: 45px; }
-            .title { font-size: 16px; font-weight: bold; margin-top: 4px; }
-            .subtitle { font-size: 12px; color: #6c757d; }
-            .section { font-weight: bold; font-size: 12px; margin: 12px 0 6px 0; border-bottom: 1px solid #000; padding-bottom: 2px; }
-            table { width: 100%; border-collapse: collapse; margin: 4px 0; }
-            th { background: #0a3d6b; color: #fff; padding: 4px 8px; text-align: left; font-size: 11px; }
-            td { padding: 3px 8px; border-bottom: 1px solid #ddd; }
-            .total-row td { font-weight: bold; border-top: 2px solid #000; }
-            .resumo-geral { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 10px 0; }
-            .resumo-geral .card { background: #f8f9fa; padding: 8px 12px; border-radius: 6px; text-align: center; }
-            .resumo-geral .card .valor { font-weight: bold; font-size: 14px; }
-            .footer { text-align: center; font-size: 8px; color: #6c757d; margin-top: 15px; border-top: 1px solid #ddd; padding-top: 4px; }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="header">
-                <img src="${LOGO}" alt="AMAZON NAVAL" class="logo">
-                <div class="title">RELATÓRIO DE RECEITAS</div>
-                <div class="subtitle">Período: Todos</div>
-            </div>
-            
-            <div class="section">📊 RESUMO GERAL</div>
-            <div class="resumo-geral">
-                <div class="card"><div>Total de Propostas</div><div class="valor">${totalPropostas}</div></div>
-                <div class="card"><div>Total de Parcelas</div><div class="valor">${totalParcelas}</div></div>
-                <div class="card"><div>Total Geral</div><div class="valor">${formatMoeda(totalGeral)}</div></div>
-                <div class="card"><div>Total Recebido</div><div class="valor" style="color:#28a745;">${formatMoeda(totalRecebido)}</div></div>
-                <div class="card"><div>Total a Receber</div><div class="valor" style="color:#dc3545;">${formatMoeda(totalAReceber)}</div></div>
-            </div>
-            
-            <div class="section">📅 RECEBIMENTOS POR MÊS</div>
-            <table>
-                <thead><tr><th>Mês</th><th style="text-align:center;">Parcelas</th><th style="text-align:right;">Valor Total</th><th style="text-align:right;">Recebido</th></tr></thead>
-                <tbody>
-                    ${mesesHtml}
-                    <tr class="total-row">
-                        <td><strong>TOTAL</strong></td>
-                        <td style="text-align:center;"><strong>${totalParcelas}</strong></td>
-                        <td style="text-align:right;"><strong>${formatMoeda(totalGeral)}</strong></td>
-                        <td style="text-align:right;"><strong>${formatMoeda(totalRecebido)}</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="section">📊 RESUMO POR STATUS</div>
-            <table>
-                <thead><tr><th>Status</th><th style="text-align:right;">Valor</th><th>Classificação</th></tr></thead>
-                <tbody>
-                    <tr><td><span style="background:#fff3cd;padding:1px 8px;border-radius:12px;font-size:10px;font-weight:bold;color:#856404;">Pendente</span></td><td style="text-align:right;">${formatMoeda(totalPendente)}</td><td>A Receber</td></tr>
-                    <tr><td><span style="background:#d4edda;padding:1px 8px;border-radius:12px;font-size:10px;font-weight:bold;color:#155724;">Paga</span></td><td style="text-align:right;">${formatMoeda(totalRecebido)}</td><td>Recebido</td></tr>
-                    <tr><td><span style="background:#f8d7da;padding:1px 8px;border-radius:12px;font-size:10px;font-weight:bold;color:#721c24;">Vencida</span></td><td style="text-align:right;">${formatMoeda(totalVencido)}</td><td>A Receber</td></tr>
-                </tbody>
-            </table>
-            
-            <div class="section">📊 FORMAS DE RECEBIMENTO</div>
-            <table>
-                <thead><tr><th>Forma</th><th style="text-align:right;">Valor</th></tr></thead>
-                <tbody>
-                    ${formasHtml}
-                    <tr class="total-row">
-                        <td><strong>TOTAL</strong></td>
-                        <td style="text-align:right;"><strong>${formatMoeda(totalGeral)}</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="footer">
-                Documento gerado em: ${new Date().toLocaleDateString('pt-BR')} ${new Date().toLocaleTimeString('pt-BR')}<br>
-                ${config.empresa} - Sistema de Orçamento
-            </div>
+    <html><head><meta charset="UTF-8"><title>Relatório de Receitas</title>
+    <style>@page{margin:15px;}body{font-family:'Courier New',monospace;font-size:12px;margin:0;padding:15px;background:#fff;}
+    .container{max-width:210mm;margin:0 auto;}.header{text-align:center;border-bottom:2px solid #0a3d6b;padding-bottom:8px;margin-bottom:12px;}
+    .logo{max-height:45px;}.title{font-size:16px;font-weight:bold;margin-top:4px;}.subtitle{font-size:12px;color:#6c757d;}
+    .section{font-weight:bold;font-size:12px;margin:12px 0 6px 0;border-bottom:1px solid #000;padding-bottom:2px;}
+    table{width:100%;border-collapse:collapse;margin:4px 0;}th{background:#0a3d6b;color:#fff;padding:4px 8px;text-align:left;font-size:11px;}
+    td{padding:3px 8px;border-bottom:1px solid #ddd;}.total-row td{font-weight:bold;border-top:2px solid #000;}
+    .resumo-geral{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin:10px 0;}
+    .resumo-geral .card{background:#f8f9fa;padding:8px 12px;border-radius:6px;text-align:center;}
+    .resumo-geral .card .valor{font-weight:bold;font-size:14px;}
+    .footer{text-align:center;font-size:8px;color:#6c757d;margin-top:15px;border-top:1px solid #ddd;padding-top:4px;}
+    </style></head><body>
+    <div class="container">
+        <div class="header"><img src="${LOGO}" class="logo"><div class="title">RELATÓRIO DE RECEITAS</div><div class="subtitle">Período: Todos</div></div>
+        <div class="section">📊 RESUMO GERAL</div>
+        <div class="resumo-geral">
+            <div class="card"><div>Total de Propostas</div><div class="valor">${totalPropostas}</div></div>
+            <div class="card"><div>Total de Parcelas</div><div class="valor">${totalParcelas}</div></div>
+            <div class="card"><div>Total Geral</div><div class="valor">${formatMoeda(totalGeral)}</div></div>
+            <div class="card"><div>Total Recebido</div><div class="valor" style="color:#28a745;">${formatMoeda(totalRecebido)}</div></div>
+            <div class="card"><div>Total a Receber</div><div class="valor" style="color:#dc3545;">${formatMoeda(totalAReceber)}</div></div>
         </div>
-        <script>
-            setTimeout(() => window.print(), 500);
-        <\/script>
-    </body>
-    </html>`;
+        <div class="section">📅 RECEBIMENTOS POR MÊS</div>
+        <table><thead><tr><th>Mês</th><th style="text-align:center;">Parcelas</th><th style="text-align:right;">Valor Total</th><th style="text-align:right;">Recebido</th></tr></thead>
+        <tbody>${mesesHtml}<tr class="total-row"><td><strong>TOTAL</strong></td><td style="text-align:center;"><strong>${totalParcelas}</strong></td><td style="text-align:right;"><strong>${formatMoeda(totalGeral)}</strong></td><td style="text-align:right;"><strong>${formatMoeda(totalRecebido)}</strong></td></tr></tbody></table>
+        <div class="section">📊 RESUMO POR STATUS</div>
+        <table><thead><tr><th>Status</th><th style="text-align:right;">Valor</th><th>Classificação</th></tr></thead>
+        <tbody>
+            <tr><td><span style="background:#fff3cd;padding:1px 8px;border-radius:12px;font-size:10px;font-weight:bold;color:#856404;">Pendente</span></td><td style="text-align:right;">${formatMoeda(totalPendente)}</td><td>A Receber</td></tr>
+            <tr><td><span style="background:#d4edda;padding:1px 8px;border-radius:12px;font-size:10px;font-weight:bold;color:#155724;">Paga</span></td><td style="text-align:right;">${formatMoeda(totalRecebido)}</td><td>Recebido</td></tr>
+            <tr><td><span style="background:#f8d7da;padding:1px 8px;border-radius:12px;font-size:10px;font-weight:bold;color:#721c24;">Vencida</span></td><td style="text-align:right;">${formatMoeda(totalVencido)}</td><td>A Receber</td></tr>
+        </tbody></table>
+        <div class="section">📊 FORMAS DE RECEBIMENTO</div>
+        <table><thead><tr><th>Forma</th><th style="text-align:right;">Valor</th></tr></thead>
+        <tbody>${formasHtml}<tr class="total-row"><td><strong>TOTAL</strong></td><td style="text-align:right;"><strong>${formatMoeda(totalGeral)}</strong></td></tr></tbody></table>
+        <div class="footer">Documento gerado em: ${new Date().toLocaleDateString('pt-BR')} ${new Date().toLocaleTimeString('pt-BR')}<br>${config.empresa} - Sistema de Orçamento</div>
+    </div>
+    <script>setTimeout(() => window.print(), 500);<\/script>
+    </body></html>`;
     
     const win = window.open('', '_blank');
     win.document.write(html);
@@ -3025,9 +2719,6 @@ function gerarPDFReceitas() {
 // ============================================================
 // PROPOSTAS GERADAS
 // ============================================================
-let propostasPaginaAtual = 1;
-const PROPOSTAS_POR_PAGINA = 25;
-
 function renderPropostas() {
     let propostas = allData.propostas || [];
     const busca = document.getElementById('propostaBusca').value.toLowerCase();
@@ -3035,11 +2726,7 @@ function renderPropostas() {
     const dataFilter = document.getElementById('propostaFiltroData').value;
     
     let filtered = propostas;
-    if (busca) filtered = filtered.filter(p => 
-        p.nome.toLowerCase().includes(busca) || 
-        p.contratante.toLowerCase().includes(busca) ||
-        p.numero.toLowerCase().includes(busca)
-    );
+    if (busca) filtered = filtered.filter(p => p.nome.toLowerCase().includes(busca) || p.contratante.toLowerCase().includes(busca) || p.numero.toLowerCase().includes(busca));
     if (statusFilter) filtered = filtered.filter(p => p.status === statusFilter);
     if (dataFilter) filtered = filtered.filter(p => p.data === dataFilter);
     
@@ -3056,7 +2743,6 @@ function renderPropostas() {
     const paginated = filtered.slice(inicio, fim);
     
     const tbody = document.getElementById('propostasBody');
-    
     if (paginated.length === 0) {
         tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Nenhuma proposta encontrada</td></tr>';
     } else {
@@ -3074,12 +2760,10 @@ function renderPropostas() {
                     <button class="btn btn-sm btn-outline-secondary" onclick="editarProposta('${p.id}')" title="Editar"><i class="bi bi-pencil"></i></button>
                     <button class="btn btn-sm btn-outline-danger" onclick="excluirProposta('${p.id}')" title="Excluir"><i class="bi bi-trash"></i></button>
                     ${p.status === 'Pendente' ? `
-                        <button class="btn btn-sm btn-outline-success" onclick="aprovarProposta('${p.id}')" title="Aprovar (gerar receitas)"><i class="bi bi-check-circle"></i></button>
+                        <button class="btn btn-sm btn-outline-success" onclick="aprovarProposta('${p.id}')" title="Aprovar"><i class="bi bi-check-circle"></i></button>
                         <button class="btn btn-sm btn-outline-danger" onclick="marcarCancelada('${p.id}')" title="Cancelar"><i class="bi bi-x-circle"></i></button>
                     ` : ''}
-                    ${p.status === 'Aprovada' ? `
-                        <button class="btn btn-sm btn-outline-info" onclick="verReceitasProposta('${p.id}')" title="Ver Receitas"><i class="bi bi-arrow-up-circle"></i></button>
-                    ` : ''}
+                    ${p.status === 'Aprovada' ? `<button class="btn btn-sm btn-outline-info" onclick="verReceitasProposta('${p.id}')" title="Ver Receitas"><i class="bi bi-arrow-up-circle"></i></button>` : ''}
                 </td>
             </tr>
         `).join('');
@@ -3100,8 +2784,7 @@ function renderPropostas() {
 
 async function aprovarProposta(id) {
     const p = allData.propostas.find(item => item.id === id);
-    if (!p) return;
-    if (p.status !== 'Pendente') { toast('Proposta já foi aprovada ou cancelada', 'warning'); return; }
+    if (!p || p.status !== 'Pendente') { toast('Proposta não está pendente', 'warning'); return; }
     if (!confirm(`Aprovar proposta ${p.numero}? Isso irá gerar ${p.numParcelas || 1} receita(s).`)) return;
     
     await updateDocument('propostas', id, { status: 'Aprovada', dataAprovacao: new Date().toISOString() });
@@ -3190,15 +2873,10 @@ function editarProposta(id) {
             cb.checked = selecionado;
         });
     }
-    
-    if (p.camposPersonalizados) {
-        setCamposPersonalizados(p.camposPersonalizados);
-    }
-    
+    if (p.camposPersonalizados) setCamposPersonalizados(p.camposPersonalizados);
     document.getElementById('numeroStatus').textContent = '✅ Número disponível';
     document.getElementById('numeroStatus').style.color = '#28a745';
     document.getElementById('fNumero').classList.add('valido');
-    
     calcularTotais();
 }
 
@@ -3227,11 +2905,8 @@ function limparFiltrosPropostas() {
 }
 
 // ============================================================
-// RECEITAS (COM TOTAIS E EDIÇÃO EM LOTE)
+// RECEITAS
 // ============================================================
-let receitasPaginaAtual = 1;
-const RECEITAS_POR_PAGINA = 25;
-
 function autocompleteCliente(value) {
     const list = document.getElementById('autocompleteClienteList');
     const propostas = allData.propostas || [];
@@ -3328,54 +3003,12 @@ function renderReceitas() {
     const tfoot = document.getElementById('receitasTotais');
     if (paginated.length > 0) {
         tfoot.innerHTML = `
-            <tr class="totais-receitas">
-                <td colspan="4" style="text-align:right;font-weight:600;color:var(--primary);">TOTAIS:</td>
-                <td style="font-weight:600;color:var(--primary);">${formatMoeda(totalGeral)}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr style="background:#fff3cd;border-bottom:1px solid #ddd;">
-                <td colspan="4" style="text-align:right;font-weight:600;color:#856404;">🔴 TOTAL A PAGAR:</td>
-                <td style="font-weight:600;color:#856404;">${formatMoeda(totalPendente)}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr style="background:#d4edda;border-bottom:1px solid #ddd;">
-                <td colspan="4" style="text-align:right;font-weight:600;color:#155724;">🟢 TOTAL RECEBIDO:</td>
-                <td style="font-weight:600;color:#155724;">${formatMoeda(totalRecebido)}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr style="background:#f8d7da;border-bottom:1px solid #ddd;">
-                <td colspan="4" style="text-align:right;font-weight:600;color:#721c24;">🟡 TOTAL VENCIDO:</td>
-                <td style="font-weight:600;color:#721c24;">${formatMoeda(totalVencido)}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr style="background:#e9ecef;font-weight:700;border-top:2px solid #0a3d6b;">
-                <td colspan="4" style="text-align:right;color:var(--primary);">🔵 TOTAL GERAL:</td>
-                <td style="color:var(--primary);">${formatMoeda(totalGeral)}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr style="background:#cce5ff;">
-                <td colspan="4" style="text-align:right;font-weight:600;color:#004085;">📌 TOTAL A RECEBER (Pendente + Vencido):</td>
-                <td style="font-weight:600;color:#004085;">${formatMoeda(totalAReceber)}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            <tr class="totais-receitas"><td colspan="4" style="text-align:right;font-weight:600;color:var(--primary);">TOTAIS:</td><td style="font-weight:600;color:var(--primary);">${formatMoeda(totalGeral)}</td><td></td><td></td><td></td><td></td></tr>
+            <tr style="background:#fff3cd;"><td colspan="4" style="text-align:right;font-weight:600;color:#856404;">🔴 TOTAL A PAGAR:</td><td style="font-weight:600;color:#856404;">${formatMoeda(totalPendente)}</td><td></td><td></td><td></td><td></td></tr>
+            <tr style="background:#d4edda;"><td colspan="4" style="text-align:right;font-weight:600;color:#155724;">🟢 TOTAL RECEBIDO:</td><td style="font-weight:600;color:#155724;">${formatMoeda(totalRecebido)}</td><td></td><td></td><td></td><td></td></tr>
+            <tr style="background:#f8d7da;"><td colspan="4" style="text-align:right;font-weight:600;color:#721c24;">🟡 TOTAL VENCIDO:</td><td style="font-weight:600;color:#721c24;">${formatMoeda(totalVencido)}</td><td></td><td></td><td></td><td></td></tr>
+            <tr style="background:#e9ecef;font-weight:700;border-top:2px solid #0a3d6b;"><td colspan="4" style="text-align:right;color:var(--primary);">🔵 TOTAL GERAL:</td><td style="color:var(--primary);">${formatMoeda(totalGeral)}</td><td></td><td></td><td></td><td></td></tr>
+            <tr style="background:#cce5ff;"><td colspan="4" style="text-align:right;font-weight:600;color:#004085;">📌 TOTAL A RECEBER:</td><td style="font-weight:600;color:#004085;">${formatMoeda(totalAReceber)}</td><td></td><td></td><td></td><td></td></tr>
         `;
     } else {
         tfoot.innerHTML = '';
@@ -3404,21 +3037,12 @@ function editarReceita(id) {
     
     if (proposta && proposta.numParcelas > 1) {
         loteEditId = id;
-        loteDados = {
-            id: id,
-            orcamento: r.orcamento,
-            total: proposta.totalGeral,
-            parcelas: proposta.numParcelas,
-            parcelaAtual: r.parcela || '1/' + proposta.numParcelas
-        };
-        
         document.getElementById('loteInfo').innerHTML = `
             📌 Proposta: <strong>${r.orcamento}</strong><br>
             📌 Parcela: <strong>${r.parcela || '1/1'}</strong><br>
             📌 Total: <strong>${formatMoeda(proposta.totalGeral)}</strong><br>
             📌 ${proposta.numParcelas} parcelas
         `;
-        
         new bootstrap.Modal(document.getElementById('modalEdicaoLote')).show();
         return;
     }
@@ -3433,54 +3057,33 @@ function editarReceita(id) {
     document.getElementById('receitaModalFormaRecebimento').value = r.formaRecebimento || r.pagamento || 'PIX';
     document.getElementById('receitaModalStatus').value = r.status || 'Pendente';
     document.getElementById('autocompleteClienteList').style.display = 'none';
+    document.getElementById('receitaModalId').dataset.lote = '';
     new bootstrap.Modal(document.getElementById('modalReceita')).show();
 }
 
 function confirmarEdicaoLote() {
     const aplicarEmTodas = document.getElementById('loteAplicarEmTodas').value === 'sim';
-    if (aplicarEmTodas) {
-        const r = allData.receitas.find(item => item.id === loteEditId);
-        if (!r) return;
-        
-        document.getElementById('receitaModalId').value = r.id;
-        document.getElementById('receitaModalData').value = formatDateInput(r.data);
-        document.getElementById('receitaModalOrcamento').value = r.orcamento || '';
-        document.getElementById('receitaModalDescricao').value = r.descricao || '';
-        document.getElementById('receitaModalCliente').value = r.cliente || '';
-        document.getElementById('receitaModalValor').value = r.valor || '';
-        document.getElementById('receitaModalParcelas').value = '1';
-        document.getElementById('receitaModalFormaRecebimento').value = r.formaRecebimento || r.pagamento || 'PIX';
-        document.getElementById('receitaModalStatus').value = r.status || 'Pendente';
-        document.getElementById('autocompleteClienteList').style.display = 'none';
-        
-        document.getElementById('receitaModalId').dataset.lote = 'true';
-        
-        bootstrap.Modal.getInstance(document.getElementById('modalEdicaoLote')).hide();
-        new bootstrap.Modal(document.getElementById('modalReceita')).show();
-    } else {
-        bootstrap.Modal.getInstance(document.getElementById('modalEdicaoLote')).hide();
-        const r = allData.receitas.find(item => item.id === loteEditId);
-        if (!r) return;
-        
-        document.getElementById('receitaModalId').value = r.id;
-        document.getElementById('receitaModalData').value = formatDateInput(r.data);
-        document.getElementById('receitaModalOrcamento').value = r.orcamento || '';
-        document.getElementById('receitaModalDescricao').value = r.descricao || '';
-        document.getElementById('receitaModalCliente').value = r.cliente || '';
-        document.getElementById('receitaModalValor').value = r.valor || '';
-        document.getElementById('receitaModalParcelas').value = '1';
-        document.getElementById('receitaModalFormaRecebimento').value = r.formaRecebimento || r.pagamento || 'PIX';
-        document.getElementById('receitaModalStatus').value = r.status || 'Pendente';
-        document.getElementById('autocompleteClienteList').style.display = 'none';
-        document.getElementById('receitaModalId').dataset.lote = '';
-        new bootstrap.Modal(document.getElementById('modalReceita')).show();
-    }
+    const r = allData.receitas.find(item => item.id === loteEditId);
+    if (!r) return;
+    
+    document.getElementById('receitaModalId').value = r.id;
+    document.getElementById('receitaModalData').value = formatDateInput(r.data);
+    document.getElementById('receitaModalOrcamento').value = r.orcamento || '';
+    document.getElementById('receitaModalDescricao').value = r.descricao || '';
+    document.getElementById('receitaModalCliente').value = r.cliente || '';
+    document.getElementById('receitaModalValor').value = r.valor || '';
+    document.getElementById('receitaModalParcelas').value = '1';
+    document.getElementById('receitaModalFormaRecebimento').value = r.formaRecebimento || r.pagamento || 'PIX';
+    document.getElementById('receitaModalStatus').value = r.status || 'Pendente';
+    document.getElementById('receitaModalId').dataset.lote = aplicarEmTodas ? 'true' : '';
+    document.getElementById('autocompleteClienteList').style.display = 'none';
+    bootstrap.Modal.getInstance(document.getElementById('modalEdicaoLote')).hide();
+    new bootstrap.Modal(document.getElementById('modalReceita')).show();
 }
 
 async function confirmarPagamentoReceita(id) {
     const r = allData.receitas.find(item => item.id === id);
-    if (!r) return;
-    if (r.status === 'Paga') { toast('Esta receita já está paga', 'warning'); return; }
+    if (!r || r.status === 'Paga') { toast('Receita já está paga', 'warning'); return; }
     if (!confirm(`Confirmar pagamento de ${formatMoeda(r.valor)}?`)) return;
     await updateDocument('receitas', id, { status: 'Paga', dataPagamento: new Date().toISOString().split('T')[0] });
     renderReceitas();
@@ -3533,19 +3136,10 @@ async function salvarReceita() {
     
     if (id) {
         const data = { data: dataBase, orcamento, descricao, cliente, valor: valorTotal, formaRecebimento, status, parcela: '1/1' };
-        
         if (isLote) {
             const todasReceitas = allData.receitas.filter(r => r.orcamento === orcamento);
             for (const r of todasReceitas) {
-                const idx = allData.receitas.findIndex(item => item.id === r.id);
-                if (idx !== -1) {
-                    const updateData = {
-                        cliente: cliente,
-                        formaRecebimento: formaRecebimento,
-                        status: status
-                    };
-                    await updateDocument('receitas', r.id, updateData);
-                }
+                await updateDocument('receitas', r.id, { cliente, formaRecebimento, status });
             }
             toast('✅ Todas as parcelas foram atualizadas!');
         } else {
@@ -3564,7 +3158,7 @@ async function salvarReceita() {
                 cliente,
                 valor: valorParcela,
                 formaRecebimento,
-                status: status,
+                status: i === 0 ? status : 'Pendente',
                 parcela: `${i+1}/${numParcelas}`
             });
         }
@@ -3596,12 +3190,7 @@ function limparFiltrosReceitas() {
 // ============================================================
 // DESPESAS
 // ============================================================
-let despesasPaginaAtual = 1;
-const DESPESAS_POR_PAGINA = 25;
-
-function getBeneficiarios() {
-    return allData.beneficiarios || [];
-}
+function getBeneficiarios() { return allData.beneficiarios || []; }
 
 function autocompleteBeneficiario(value) {
     const list = document.getElementById('autocompleteBeneficiarioList');
@@ -3631,19 +3220,11 @@ function abrirModalNovoBeneficiario() {
 async function salvarNovoBeneficiario() {
     const nome = document.getElementById('novoBeneficiarioNome').value.trim();
     if (!nome) { toast('Informe o nome do beneficiário', 'error'); return; }
-    
-    const beneficiarios = getBeneficiarios();
-    if (beneficiarios.some(b => b.nome.toLowerCase() === nome.toLowerCase())) {
+    if (getBeneficiarios().some(b => b.nome.toLowerCase() === nome.toLowerCase())) {
         toast('Beneficiário já cadastrado!', 'warning');
         return;
     }
-    
-    const data = {
-        nome: nome,
-        tipo: document.getElementById('novoBeneficiarioTipo').value,
-        obs: document.getElementById('novoBeneficiarioObs').value.trim()
-    };
-    
+    const data = { nome, tipo: document.getElementById('novoBeneficiarioTipo').value, obs: document.getElementById('novoBeneficiarioObs').value.trim() };
     const newItem = await addDocument('beneficiarios', data);
     if (newItem) {
         bootstrap.Modal.getInstance(document.getElementById('modalNovoBeneficiario')).hide();
@@ -3662,22 +3243,13 @@ function renderBeneficiarios() {
     const beneficiarios = getBeneficiarios();
     const busca = document.getElementById('beneficiarioBusca').value.toLowerCase();
     const tbody = document.getElementById('beneficiariosBody');
-    
-    let filtered = beneficiarios;
-    if (busca) filtered = beneficiarios.filter(b => b.nome.toLowerCase().includes(busca));
-    
+    let filtered = busca ? beneficiarios.filter(b => b.nome.toLowerCase().includes(busca)) : beneficiarios;
     if (filtered.length === 0) {
         tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Nenhum beneficiário encontrado</td></tr>';
     } else {
         tbody.innerHTML = filtered.map(b => `
-            <tr>
-                <td><strong>${b.nome}</strong></td>
-                <td>${b.tipo || '-'}</td>
-                <td>${b.obs || '-'}</td>
-                <td>
-                    <button class="btn btn-sm btn-outline-danger" onclick="excluirBeneficiario('${b.id}')"><i class="bi bi-trash"></i></button>
-                </td>
-            </tr>
+            <tr><td><strong>${b.nome}</strong></td><td>${b.tipo || '-'}</td><td>${b.obs || '-'}</td>
+            <td><button class="btn btn-sm btn-outline-danger" onclick="excluirBeneficiario('${b.id}')"><i class="bi bi-trash"></i></button></td></tr>
         `).join('');
     }
 }
@@ -3727,8 +3299,8 @@ function renderDespesas() {
                 <td><span class="badge-status ${getStatusBadge(d.status || 'Pendente')}">${d.status || 'Pendente'}</span></td>
                 <td>${d.pagamento || '-'}</td>
                 <td>
-                    <button class="btn btn-sm btn-outline-primary" onclick="editarDespesa('${d.id}')" title="Editar"><i class="bi bi-pencil"></i></button>
-                    <button class="btn btn-sm btn-outline-success" onclick="mudarStatusDespesa('${d.id}')" title="Mudar status"><i class="bi bi-arrow-repeat"></i></button>
+                    <button class="btn btn-sm btn-outline-primary" onclick="editarDespesa('${d.id}')"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-sm btn-outline-success" onclick="mudarStatusDespesa('${d.id}')"><i class="bi bi-arrow-repeat"></i></button>
                     <button class="btn btn-sm btn-outline-danger" onclick="excluirDespesa('${d.id}')"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>
@@ -3790,18 +3362,14 @@ async function salvarDespesa() {
     const id = document.getElementById('despesaModalId').value;
     const fornecedor = document.getElementById('despesaModalFornecedor').value.trim();
     
-    if (fornecedor) {
-        const beneficiarios = getBeneficiarios();
-        if (!beneficiarios.some(b => b.nome.toLowerCase() === fornecedor.toLowerCase())) {
-            if (confirm(`"${fornecedor}" não está cadastrado. Deseja cadastrar agora?`)) {
-                const data = {
-                    nome: fornecedor,
-                    tipo: document.getElementById('despesaModalCategoria').value === 'Pessoal' ? 'Pessoal' : 'Fornecedor',
-                    obs: 'Cadastrado automaticamente'
-                };
-                await addDocument('beneficiarios', data);
-                toast('✅ Beneficiário cadastrado automaticamente!');
-            }
+    if (fornecedor && !getBeneficiarios().some(b => b.nome.toLowerCase() === fornecedor.toLowerCase())) {
+        if (confirm(`"${fornecedor}" não está cadastrado. Deseja cadastrar agora?`)) {
+            await addDocument('beneficiarios', {
+                nome: fornecedor,
+                tipo: document.getElementById('despesaModalCategoria').value === 'Pessoal' ? 'Pessoal' : 'Fornecedor',
+                obs: 'Cadastrado automaticamente'
+            });
+            toast('✅ Beneficiário cadastrado automaticamente!');
         }
     }
     
@@ -3901,8 +3469,7 @@ async function salvarPessoa() {
     const nome = document.getElementById('pessoaModalNome').value.trim();
     if (!nome) { toast('Informe o nome', 'error'); return; }
     const data = {
-        nome: nome,
-        funcao: document.getElementById('pessoaModalFuncao').value.trim(),
+        nome, funcao: document.getElementById('pessoaModalFuncao').value.trim(),
         admissao: document.getElementById('pessoaModalAdmissao').value || new Date().toISOString().split('T')[0],
         status: document.getElementById('pessoaModalStatus').value,
         salario: parseFloat(document.getElementById('pessoaModalSalario').value) || 0,
@@ -3997,60 +3564,10 @@ function gerarAlertas() {
             const dt = new Date(r.data);
             const diff = Math.ceil((dt - hoje) / (1000 * 60 * 60 * 24));
             if (diff >= 0 && diff <= 5) {
-                alertas.push({
-                    tipo: 'warning',
-                    titulo: '⚠️ Receita a vencer',
-                    mensagem: `${r.descricao} - ${formatMoeda(r.valor)}`,
-                    data: `Vence em ${diff} dia(s)`
-                });
+                alertas.push({ tipo: 'warning', titulo: '⚠️ Receita a vencer', mensagem: `${r.descricao} - ${formatMoeda(r.valor)}`, data: `Vence em ${diff} dia(s)` });
             }
             if (diff < 0) {
-                alertas.push({
-                    tipo: 'danger',
-                    titulo: '🔴 Receita vencida',
-                    mensagem: `${r.descricao} - ${formatMoeda(r.valor)}`,
-                    data: `Vencida há ${Math.abs(diff)} dia(s)`
-                });
-            }
-        }
-    });
-    
-    const propostas = allData.propostas || [];
-    propostas.filter(p => p.status === 'Pendente').forEach(p => {
-        if (p.criadoEm) {
-            const dt = new Date(p.criadoEm);
-            const diff = Math.ceil((hoje - dt) / (1000 * 60 * 60 * 24));
-            if (diff > 15) {
-                alertas.push({
-                    tipo: 'warning',
-                    titulo: '📄 Proposta pendente',
-                    mensagem: `${p.numero} - ${p.nome}`,
-                    data: `Há ${diff} dias`
-                });
-            }
-        }
-    });
-    
-    const despesas = allData.despesas || [];
-    despesas.filter(d => d.status === 'Pendente').forEach(d => {
-        if (d.data) {
-            const dt = new Date(d.data);
-            const diff = Math.ceil((dt - hoje) / (1000 * 60 * 60 * 24));
-            if (diff >= 0 && diff <= 5) {
-                alertas.push({
-                    tipo: 'warning',
-                    titulo: '⚠️ Despesa a vencer',
-                    mensagem: `${d.descricao} - ${formatMoeda(d.valor)}`,
-                    data: `Vence em ${diff} dia(s)`
-                });
-            }
-            if (diff < 0) {
-                alertas.push({
-                    tipo: 'danger',
-                    titulo: '🔴 Despesa vencida',
-                    mensagem: `${d.descricao} - ${formatMoeda(d.valor)}`,
-                    data: `Vencida há ${Math.abs(diff)} dia(s)`
-                });
+                alertas.push({ tipo: 'danger', titulo: '🔴 Receita vencida', mensagem: `${r.descricao} - ${formatMoeda(r.valor)}`, data: `Vencida há ${Math.abs(diff)} dia(s)` });
             }
         }
     });
@@ -4059,30 +3576,22 @@ function gerarAlertas() {
 }
 
 function atualizarAlertas() {
-    const alertas = gerarAlertas();
     const propPendentes = (allData.propostas || []).filter(p => p.status === 'Pendente').length;
     const recPendentes = (allData.receitas || []).filter(r => r.status === 'Pendente').length;
     const desPendentes = (allData.despesas || []).filter(d => d.status === 'Pendente').length;
     
     document.getElementById('alertBadgeProp').textContent = propPendentes > 0 ? propPendentes : '';
     document.getElementById('alertBadgeProp').style.display = propPendentes > 0 ? 'inline' : 'none';
-    
     document.getElementById('alertBadgeRec').textContent = recPendentes > 0 ? recPendentes : '';
     document.getElementById('alertBadgeRec').style.display = recPendentes > 0 ? 'inline' : 'none';
-    
     document.getElementById('alertBadgeDesp').textContent = desPendentes > 0 ? desPendentes : '';
     document.getElementById('alertBadgeDesp').style.display = desPendentes > 0 ? 'inline' : 'none';
-    
-    document.getElementById('alertBadgeDash').style.display = alertas.length > 0 ? 'inline' : 'none';
+    document.getElementById('alertBadgeDash').style.display = gerarAlertas().length > 0 ? 'inline' : 'none';
 }
 
 // ============================================================
 // GRÁFICOS
 // ============================================================
-let fluxoCaixaChartInstance = null;
-let relStatusChartInstance = null;
-let relMesChartInstance = null;
-
 function gerarFluxoCaixaChart() {
     const ctx = document.getElementById('fluxoCaixaChart').getContext('2d');
     if (fluxoCaixaChartInstance) { fluxoCaixaChartInstance.destroy(); }
@@ -4094,41 +3603,20 @@ function gerarFluxoCaixaChart() {
         const dt = new Date(hoje);
         dt.setDate(dt.getDate() + i);
         dias.push(dt.toLocaleDateString('pt-BR'));
-        const total = (allData.receitas || []).filter(r => {
-            if (!r.data || r.status !== 'Pendente') return false;
-            const rd = new Date(r.data);
-            return rd.toDateString() === dt.toDateString();
-        }).reduce((s, r) => s + (r.valor || 0), 0);
+        const total = (allData.receitas || []).filter(r => r.data && r.status !== 'Paga' && new Date(r.data).toDateString() === dt.toDateString()).reduce((s, r) => s + (r.valor || 0), 0);
         valores.push(total);
     }
     
     fluxoCaixaChartInstance = new Chart(ctx, {
         type: 'bar',
-        data: {
-            labels: dias,
-            datasets: [{
-                label: 'Receitas a Receber',
-                data: valores,
-                backgroundColor: 'rgba(40, 167, 69, 0.6)',
-                borderColor: '#28a745',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { callback: function(value) { return formatMoeda(value); } }
-                },
-                x: { ticks: { maxTicksLimit: 10, font: { size: 8 } } }
-            }
-        }
+        data: { labels: dias, datasets: [{ label: 'Receitas a Receber', data: valores, backgroundColor: 'rgba(40, 167, 69, 0.6)', borderColor: '#28a745', borderWidth: 1 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => formatMoeda(v) } }, x: { ticks: { maxTicksLimit: 10, font: { size: 8 } } } } }
     });
 }
 
+// ============================================================
+// RELATÓRIOS
+// ============================================================
 function gerarRelatorio() {
     const propostas = allData.propostas || [];
     const inicio = document.getElementById('relDataInicio').value;
@@ -4148,20 +3636,13 @@ function gerarRelatorio() {
     let html = `
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;margin-bottom:15px;">
             <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-file-earmark-text"></i></div>
-                <div><div class="stat-number">${total}</div><div class="stat-label">Propostas</div></div>
-            </div>
+                <div><div class="stat-number">${total}</div><div class="stat-label">Propostas</div></div></div>
             <div class="stat-card"><div class="stat-icon green"><i class="bi bi-currency-dollar"></i></div>
-                <div><div class="stat-number">${formatMoeda(totalValor)}</div><div class="stat-label">Valor Total</div></div>
-            </div>
+                <div><div class="stat-number">${formatMoeda(totalValor)}</div><div class="stat-label">Valor Total</div></div></div>
             <div class="stat-card"><div class="stat-icon purple"><i class="bi bi-calculator"></i></div>
-                <div><div class="stat-number">${total > 0 ? formatMoeda(totalValor / total) : 'R$ 0,00'}</div><div class="stat-label">Ticket Médio</div></div>
-            </div>
+                <div><div class="stat-number">${total > 0 ? formatMoeda(totalValor / total) : 'R$ 0,00'}</div><div class="stat-label">Ticket Médio</div></div></div>
         </div>
-        <div class="table-responsive">
-            <table class="table-custom">
-                <thead><tr><th>Data Criação</th><th>Nº</th><th>Embarcação</th><th>Contratante</th><th>Valor</th><th>Status</th></tr></thead>
-                <tbody>
-    `;
+        <div class="table-responsive"><table class="table-custom"><thead><tr><th>Data Criação</th><th>Nº</th><th>Embarcação</th><th>Contratante</th><th>Valor</th><th>Status</th></tr></thead><tbody>`;
     
     if (filtered.length === 0) {
         html += `<tr><td colspan="6" class="text-center text-muted">Nenhuma proposta encontrada</td></tr>`;
@@ -4174,91 +3655,35 @@ function gerarRelatorio() {
     html += `</tbody></table></div>`;
     document.getElementById('relatorioResultado').innerHTML = html;
     
-    gerarRelatorioGraficos(filtered);
-}
-
-function gerarRelatorioGraficos(propostas) {
+    // Gráficos
     const ctxStatus = document.getElementById('relStatusChart').getContext('2d');
     if (relStatusChartInstance) { relStatusChartInstance.destroy(); }
-    
     const statusCount = {};
-    propostas.forEach(p => {
-        const s = p.status || 'Pendente';
-        statusCount[s] = (statusCount[s] || 0) + 1;
-    });
-    
+    filtered.forEach(p => { const s = p.status || 'Pendente'; statusCount[s] = (statusCount[s] || 0) + 1; });
     relStatusChartInstance = new Chart(ctxStatus, {
         type: 'pie',
-        data: {
-            labels: Object.keys(statusCount),
-            datasets: [{
-                data: Object.values(statusCount),
-                backgroundColor: ['#ffc107', '#28a745', '#dc3545', '#17a2b8']
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom', labels: { font: { size: 9 } } } }
-        }
+        data: { labels: Object.keys(statusCount), datasets: [{ data: Object.values(statusCount), backgroundColor: ['#ffc107', '#28a745', '#dc3545', '#17a2b8'] }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 9 } } } } }
     });
     
     const ctxMes = document.getElementById('relMesChart').getContext('2d');
     if (relMesChartInstance) { relMesChartInstance.destroy(); }
-    
     const meses = {};
-    propostas.forEach(p => {
-        if (p.criadoEm) {
-            const mes = p.criadoEm.substring(0, 7);
-            meses[mes] = (meses[mes] || 0) + (p.totalGeral || 0);
-        }
-    });
-    
+    filtered.forEach(p => { if (p.criadoEm) { const mes = p.criadoEm.substring(0, 7); meses[mes] = (meses[mes] || 0) + (p.totalGeral || 0); } });
     const sortedMeses = Object.keys(meses).sort();
     relMesChartInstance = new Chart(ctxMes, {
         type: 'bar',
-        data: {
-            labels: sortedMeses.map(m => m.replace('-', '/')),
-            datasets: [{
-                label: 'Valor Total',
-                data: sortedMeses.map(m => meses[m]),
-                backgroundColor: 'rgba(10, 61, 107, 0.6)',
-                borderColor: '#0a3d6b',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { callback: function(value) { return formatMoeda(value); } }
-                }
-            }
-        }
+        data: { labels: sortedMeses.map(m => m.replace('-', '/')), datasets: [{ label: 'Valor Total', data: sortedMeses.map(m => meses[m]), backgroundColor: 'rgba(10,61,107,0.6)', borderColor: '#0a3d6b', borderWidth: 1 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => formatMoeda(v) } } } }
     });
 }
 
 function exportarRelatorioCSV() {
     const propostas = allData.propostas || [];
-    const inicio = document.getElementById('relDataInicio').value;
-    const fim = document.getElementById('relDataFim').value;
-    const cliente = document.getElementById('relCliente').value.toLowerCase();
-    const status = document.getElementById('relStatus').value;
-    
-    let filtered = propostas;
-    if (inicio) filtered = filtered.filter(p => p.data && p.data >= inicio);
-    if (fim) filtered = filtered.filter(p => p.data && p.data <= fim);
-    if (cliente) filtered = filtered.filter(p => (p.contratante || '').toLowerCase().includes(cliente));
-    if (status) filtered = filtered.filter(p => p.status === status);
-    
     let csv = 'Data Criação;Nº;Embarcação;Contratante;Valor;Status\n';
-    filtered.sort((a, b) => new Date(b.criadoEm) - new Date(a.criadoEm)).forEach(p => {
+    propostas.sort((a, b) => new Date(b.criadoEm) - new Date(a.criadoEm)).forEach(p => {
         csv += `${formatDate(p.criadoEm)};${p.numero || 'N/A'};${p.nome || 'N/A'};${p.contratante || 'N/A'};${p.totalGeral || 0};${p.status || 'Pendente'}\n`;
     });
-    
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -4283,18 +3708,12 @@ function calcularDRE() {
     
     const receitas = (allData.receitas || []).filter(r => {
         if (!r.data) return false;
-        try {
-            const d = new Date(r.data);
-            return d.getFullYear() === anoSelecionado && (d.getMonth() + 1) === mesSelecionado;
-        } catch(e) { return false; }
+        try { const d = new Date(r.data); return d.getFullYear() === anoSelecionado && (d.getMonth() + 1) === mesSelecionado; } catch(e) { return false; }
     });
     
     const despesas = (allData.despesas || []).filter(d => {
         if (!d.data) return false;
-        try {
-            const dt = new Date(d.data);
-            return dt.getFullYear() === anoSelecionado && (dt.getMonth() + 1) === mesSelecionado;
-        } catch(e) { return false; }
+        try { const dt = new Date(d.data); return dt.getFullYear() === anoSelecionado && (dt.getMonth() + 1) === mesSelecionado; } catch(e) { return false; }
     });
     
     const totalReceitas = receitas.reduce((s, r) => s + (r.valor || 0), 0);
@@ -4302,10 +3721,7 @@ function calcularDRE() {
     const resultado = totalReceitas - totalDespesas;
     
     const categorias = {};
-    despesas.forEach(d => {
-        const cat = d.categoria || 'Outros';
-        categorias[cat] = (categorias[cat] || 0) + (d.valor || 0);
-    });
+    despesas.forEach(d => { const cat = d.categoria || 'Outros'; categorias[cat] = (categorias[cat] || 0) + (d.valor || 0); });
     
     let categoriasHtml = '';
     if (Object.keys(categorias).length === 0) {
@@ -4331,33 +3747,23 @@ function calcularDRE() {
     document.getElementById('dreResultado').innerHTML = `
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;margin-bottom:15px;">
             <div class="stat-card"><div class="stat-icon green"><i class="bi bi-arrow-up"></i></div>
-                <div><div class="stat-number">${formatMoeda(totalReceitas)}</div><div class="stat-label">Receitas</div></div>
-            </div>
+                <div><div class="stat-number">${formatMoeda(totalReceitas)}</div><div class="stat-label">Receitas</div></div></div>
             <div class="stat-card"><div class="stat-icon red"><i class="bi bi-arrow-down"></i></div>
-                <div><div class="stat-number">${formatMoeda(totalDespesas)}</div><div class="stat-label">Despesas</div></div>
-            </div>
+                <div><div class="stat-number">${formatMoeda(totalDespesas)}</div><div class="stat-label">Despesas</div></div></div>
             <div class="stat-card"><div class="stat-icon ${resultado >= 0 ? 'green' : 'red'}"><i class="bi bi-currency-dollar"></i></div>
-                <div><div class="stat-number" style="color:${resultado >= 0 ? '#28a745' : '#dc3545'};">${formatMoeda(resultado)}</div><div class="stat-label">Resultado</div></div>
-            </div>
+                <div><div class="stat-number" style="color:${resultado >= 0 ? '#28a745' : '#dc3545'};">${formatMoeda(resultado)}</div><div class="stat-label">Resultado</div></div></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
-            <div class="card-custom" style="margin:0;">
-                <div style="font-weight:600;color:var(--primary);">Detalhamento das Despesas</div>
-                <table class="table-custom" style="font-size:0.75rem;">
-                    <thead><tr><th>Categoria</th><th style="text-align:right;">Valor</th></tr></thead>
-                    <tbody>${categoriasHtml}</tbody>
-                </table>
-            </div>
-            <div class="card-custom" style="margin:0;">
-                <div style="font-weight:600;color:var(--primary);">Últimas Receitas</div>
-                ${receitasHtml}
-            </div>
+            <div class="card-custom" style="margin:0;"><div style="font-weight:600;color:var(--primary);">Detalhamento das Despesas</div>
+                <table class="table-custom" style="font-size:0.75rem;"><thead><tr><th>Categoria</th><th style="text-align:right;">Valor</th></tr></thead>
+                <tbody>${categoriasHtml}</tbody></table></div>
+            <div class="card-custom" style="margin:0;"><div style="font-weight:600;color:var(--primary);">Últimas Receitas</div>${receitasHtml}</div>
         </div>
     `;
 }
 
 // ============================================================
-// CONFIGURAÇÕES - ALTERAR SENHA
+// CONFIG - ALTERAR SENHA
 // ============================================================
 async function alterarSenha() {
     const senhaAtual = document.getElementById('senhaAtual').value;
@@ -4365,23 +3771,9 @@ async function alterarSenha() {
     const confirmarSenha = document.getElementById('confirmarSenha').value;
     const statusEl = document.getElementById('senhaStatus');
     
-    if (!senhaAtual) {
-        statusEl.innerHTML = '❌ Digite sua senha atual';
-        statusEl.style.color = '#dc3545';
-        return;
-    }
-    
-    if (!novaSenha || novaSenha.length < 6) {
-        statusEl.innerHTML = '❌ A nova senha deve ter pelo menos 6 caracteres';
-        statusEl.style.color = '#dc3545';
-        return;
-    }
-    
-    if (novaSenha !== confirmarSenha) {
-        statusEl.innerHTML = '❌ As senhas não coincidem';
-        statusEl.style.color = '#dc3545';
-        return;
-    }
+    if (!senhaAtual) { statusEl.innerHTML = '❌ Digite sua senha atual'; statusEl.style.color = '#dc3545'; return; }
+    if (!novaSenha || novaSenha.length < 6) { statusEl.innerHTML = '❌ A nova senha deve ter pelo menos 6 caracteres'; statusEl.style.color = '#dc3545'; return; }
+    if (novaSenha !== confirmarSenha) { statusEl.innerHTML = '❌ As senhas não coincidem'; statusEl.style.color = '#dc3545'; return; }
     
     statusEl.innerHTML = '⏳ Alterando senha...';
     statusEl.style.color = '#ffc107';
@@ -4391,7 +3783,6 @@ async function alterarSenha() {
         const credential = firebase.auth.EmailAuthProvider.credential(user.email, senhaAtual);
         await user.reauthenticateWithCredential(credential);
         await user.updatePassword(novaSenha);
-        
         statusEl.innerHTML = '✅ Senha alterada com sucesso!';
         statusEl.style.color = '#28a745';
         document.getElementById('senhaAtual').value = '';
@@ -4400,11 +3791,7 @@ async function alterarSenha() {
         toast('🔑 Senha alterada com sucesso!', 'success');
     } catch (error) {
         console.error('Erro ao alterar senha:', error);
-        if (error.code === 'auth/wrong-password') {
-            statusEl.innerHTML = '❌ Senha atual incorreta';
-        } else {
-            statusEl.innerHTML = '❌ Erro ao alterar senha: ' + error.message;
-        }
+        statusEl.innerHTML = error.code === 'auth/wrong-password' ? '❌ Senha atual incorreta' : '❌ Erro: ' + error.message;
         statusEl.style.color = '#dc3545';
         toast('❌ Erro ao alterar senha', 'error');
     }
@@ -4446,28 +3833,18 @@ async function importarBackup(event) {
     try {
         const text = await file.text();
         const data = JSON.parse(text);
-        
-        if (!data.propostas || !data.receitas) {
-            throw new Error('Arquivo inválido');
-        }
-        
-        if (!confirm(`Restaurar backup de ${formatDate(data.dataExportacao)}? Isso irá substituir todos os dados atuais.`)) {
-            return;
-        }
+        if (!data.propostas || !data.receitas) throw new Error('Arquivo inválido');
+        if (!confirm(`Restaurar backup de ${formatDate(data.dataExportacao)}? Isso irá substituir todos os dados atuais.`)) return;
         
         document.getElementById('backupStatus').innerHTML = '⏳ Restaurando backup...';
         document.getElementById('backupStatus').style.color = '#ffc107';
         
-        // Limpar dados existentes
         const collections = ['propostas', 'receitas', 'despesas', 'pessoas', 'beneficiarios', 'precos', 'configuracoes'];
         for (const col of collections) {
             const snapshot = await db.collection(col).get();
-            for (const doc of snapshot.docs) {
-                await db.collection(col).doc(doc.id).delete();
-            }
+            for (const doc of snapshot.docs) await db.collection(col).doc(doc.id).delete();
         }
         
-        // Importar novos dados
         for (const col of collections) {
             if (data[col]) {
                 for (const item of data[col]) {
@@ -4479,29 +3856,16 @@ async function importarBackup(event) {
         
         document.getElementById('backupStatus').innerHTML = '✅ Backup restaurado com sucesso! Recarregando...';
         document.getElementById('backupStatus').style.color = '#28a745';
-        
         toast('✅ Backup restaurado! Recarregando dados...', 'success');
-        
-        // Recarregar dados
         dadosCarregados = false;
-        allData = {
-            propostas: [],
-            receitas: [],
-            despesas: [],
-            precos: [],
-            pessoas: [],
-            beneficiarios: [],
-            configuracoes: []
-        };
+        allData = { propostas: [], receitas: [], despesas: [], precos: [], pessoas: [], beneficiarios: [], configuracoes: [] };
         await carregarDados();
-        
     } catch (error) {
         console.error('Erro ao importar backup:', error);
         document.getElementById('backupStatus').innerHTML = '❌ Erro ao restaurar backup: ' + error.message;
         document.getElementById('backupStatus').style.color = '#dc3545';
         toast('❌ Erro ao restaurar backup', 'error');
     }
-    
     event.target.value = '';
 }
 
@@ -4521,24 +3885,6 @@ function carregarConfiguracoes() {
     }
 }
 
-async function salvarConfiguracoes() {
-    const data = {
-        empresa: document.getElementById('configEmpresa').value.trim(),
-        cnpj: document.getElementById('configCnpj').value.trim(),
-        conta: document.getElementById('configConta').value.trim(),
-        pix: document.getElementById('configPix').value.trim(),
-        foro: document.getElementById('configForo').value.trim(),
-        prazo: document.getElementById('configPrazo').value || '30'
-    };
-    const config = allData.configuracoes || [];
-    if (config.length > 0) {
-        await updateDocument('configuracoes', config[0].id, data);
-    } else {
-        await addDocument('configuracoes', data);
-    }
-    toast('Configurações salvas!');
-}
-
 // ============================================================
 // LIMPAR DADOS
 // ============================================================
@@ -4552,31 +3898,17 @@ async function limparDados() {
     const collections = ['propostas', 'receitas', 'despesas', 'pessoas', 'beneficiarios', 'precos'];
     for (const col of collections) {
         const snapshot = await db.collection(col).get();
-        for (const doc of snapshot.docs) {
-            await db.collection(col).doc(doc.id).delete();
-        }
+        for (const doc of snapshot.docs) await db.collection(col).doc(doc.id).delete();
     }
     
     dadosCarregados = false;
-    allData = {
-        propostas: [],
-        receitas: [],
-        despesas: [],
-        precos: [],
-        pessoas: [],
-        beneficiarios: [],
-        configuracoes: []
-    };
-    
+    allData = { propostas: [], receitas: [], despesas: [], precos: [], pessoas: [], beneficiarios: [], configuracoes: [] };
     document.getElementById('backupStatus').innerHTML = '✅ Dados removidos! Recarregando...';
     document.getElementById('backupStatus').style.color = '#28a745';
     toast('Dados removidos do Firestore!', 'info');
     setTimeout(() => location.reload(), 2000);
 }
 
-// ============================================================
-// CARREGAR EXEMPLOS
-// ============================================================
 function carregarExemplos() {
     toast('Os exemplos já foram carregados automaticamente do Firebase!', 'info');
 }
@@ -4591,13 +3923,11 @@ function verificarPWA() {
         document.getElementById('installBanner').style.display = 'none';
         return;
     }
-    
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
         document.getElementById('installBanner').style.display = 'flex';
     });
-    
     window.addEventListener('appinstalled', () => {
         document.getElementById('installBanner').style.display = 'none';
         toast('✅ App instalado com sucesso!', 'success');
@@ -4608,11 +3938,8 @@ function instalarPWA() {
     if (deferredPrompt) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                toast('✅ App instalado!', 'success');
-            } else {
-                toast('Instalação cancelada', 'info');
-            }
+            if (choiceResult.outcome === 'accepted') toast('✅ App instalado!', 'success');
+            else toast('Instalação cancelada', 'info');
             deferredPrompt = null;
             document.getElementById('installBanner').style.display = 'none';
         });
@@ -4631,11 +3958,7 @@ function fecharInstallBanner() {
 document.addEventListener('DOMContentLoaded', function() {
     const hoje = new Date().toISOString().split('T')[0];
     document.getElementById('fData').value = hoje;
-    document.getElementById('recFiltroData').value = '';
-    document.getElementById('desFiltroData').value = '';
     document.getElementById('dreMes').value = hoje.substring(0, 7);
-    document.getElementById('relDataInicio').value = '';
-    document.getElementById('relDataFim').value = '';
     
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -4649,9 +3972,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('click', function(e) {
     document.querySelectorAll('.autocomplete-list').forEach(el => {
-        if (!el.contains(e.target)) {
-            el.style.display = 'none';
-        }
+        if (!el.contains(e.target)) el.style.display = 'none';
     });
 });
 </script>
